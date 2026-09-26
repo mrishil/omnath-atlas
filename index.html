@@ -61,12 +61,28 @@ display:flex;align-items:center;justify-content:center;text-align:center;padding
 .legend .card{padding:14px}
 .legend strong{display:block;margin-bottom:4px}
 .notice{color:var(--muted);font-size:12px}
+
+.fusion-grid{position:relative!important;height:auto!important;min-width:0!important;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:6px}
+.fusion-card{border:1px solid var(--line);background:linear-gradient(145deg,#171f28,#0f141a);border-radius:15px;padding:13px;cursor:pointer;transition:.18s border-color,.18s transform}
+.fusion-card:hover{border-color:#60768b;transform:translateY(-1px)}
+.fusion-card.selected{border-color:var(--accent);box-shadow:0 0 0 2px rgba(119,213,255,.12),0 12px 32px rgba(0,0,0,.36)}
+.fusion-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.fusion-score{font-size:17px;font-weight:900;color:var(--good);white-space:nowrap}
+.fusion-name{font-size:14px;font-weight:850;line-height:1.2}
+.fusion-pair{font-size:10px;color:var(--accent);margin-top:4px}
+.fusion-why{font-size:11px;color:var(--muted);margin-top:8px}
+.deck-toolbar{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0 8px}
+.deckline{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;padding:6px 8px;border-bottom:1px solid #202832}
+.deckline.commander{color:var(--core);font-weight:800}
+.copy-ok{color:var(--good)!important;border-color:#2f6650!important}
+
 @media(max-width:980px){
  main{grid-template-columns:1fr}
  .panel{position:static;min-height:0}
  .mapwrap{min-height:610px;overflow:auto}
  #map{transform:scale(.82);height:560px}
  .legend{grid-template-columns:1fr}
+ .fusion-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -79,6 +95,7 @@ display:flex;align-items:center;justify-content:center;text-align:center;padding
   </div>
   <div class="controls">
     <button id="newCardsBtn">New Cards <span id="newCardsCount"></span></button>
+    <button id="fusionBtn">Fusion Decks</button>
     <input id="search" placeholder="Search a card…">
     <button id="proxyBtn" class="active">Proxy / Unrestricted</button>
     <button id="physicalBtn">No-Proxy / Physical</button>
@@ -88,8 +105,8 @@ display:flex;align-items:center;justify-content:center;text-align:center;padding
 <main>
   <section class="card mapwrap">
     <div class="map-title">
-      <h2>Deck-type bubbles</h2>
-      <span class="small">Click any bubble</span>
+      <h2 id="mapHeading">Deck-type bubbles</h2>
+      <span class="small" id="mapHint">Click any bubble</span>
     </div>
     <div id="map"></div>
   </section>
@@ -122,6 +139,143 @@ display:flex;align-items:center;justify-content:center;text-align:center;padding
 
 <script>
 const DATA = {"decks":{"Core":{"subtitle":"Shared high-priority pool","note":"The central Omnath shell. These are the cards we currently trust across the most builds. The 11 newest core adds are highlighted.","cards":["Omnath, Locus of the Void","Doubling Cube","Horizon Stone","Forsaken Monument","Astral Cornucopia","Basalt Monolith","Mycosynth Lattice","Mirrorworks","Ultron, Artificial Malevolence","Mirror Box","Echoes of Eternity","Helm of the Host","Sculpting Steel","Lithoform Engine","Strionic Resonator","Prototype Portal","Roaming Throne","Panharmonicon","Mirror of the Forebears","Abstruse Archaic","Mirrorpool","Aetheric Amplifier","Energy Chamber","Karn's Bastion","Walking Ballista","Everflowing Chalice","Empowered Autogenerator","Darksteel Reactor","Lux Artillery","Coretapper","The Millennium Calendar","Surge Conductor","Gonti's Aether Heart","Voltaic Key","Manifold Key","Unwinding Clock","Clock of Omens","Thousand-Year Elixir","Voltaic Construct","Mithril Coat","Champion's Helm","Swiftfoot Boots","Lightning Greaves","Commander's Plate","Not of This World","Plaza of Heroes","Soul of New Phyrexia","Cryptothrall","Treasure Vault","Terrain Generator","Vesuva","Thespian's Stage","Cloudpost","Glimmerpost","Planar Nexus","Deserted Temple","Walking Atlas","Winter Orb","Winter Moon","Static Orb","Portal to Phyrexia","Cogwork Assembler","Sonic Screwdriver","Cloud Key","The One Ring","Mystic Forge","Expedition Map","Moonsilver Key","Darksteel Forge","Staff of Domination","Rings of Brighthearth","Brass Infiniscope","Scarecrone"],"status":"73-card core pool"},"Mass Land / Landfall":{"subtitle":"Lands become the engine","note":"Explode land count, copy high-output lands, untap them repeatedly, and turn every land entry into mana/value.","cards":["Omnath, Locus of the Void","Cloudpost","Glimmerpost","Planar Nexus","Vesuva","Thespian's Stage","Deserted Temple","Terrain Generator","Walking Atlas","Crucible of Worlds","Amulet of Vigor","Sword of Feast and Famine","Pip-Boy 3000","Wasteland","Urza's Saga","Treasure Vault","Mirrorpool","Expedition Map","Moonsilver Key","Mycosynth Lattice","Unwinding Clock","Clock of Omens","Sonic Screwdriver","Forsaken Monument","Doubling Cube","Horizon Stone","Karn's Bastion","The Mycosynth Gardens","Urza's Workshop","Guildless Commons","Three Tree City","Cavern of Souls"],"status":"Ready bubble"},"Artifact Mana / Machine":{"subtitle":"Mana rocks become a factory","note":"Stack mana artifacts, copy them, untap them, bank excess mana, and convert that resource lead into wins.","cards":["Omnath, Locus of the Void","Sol Ring","Mana Vault","Grim Monolith","Basalt Monolith","Everflowing Chalice","Astral Cornucopia","Empowered Autogenerator","Thran Dynamo","Chromatic Orrery","Forsaken Monument","Doubling Cube","Horizon Stone","Gilded Lotus","Brass Infiniscope","Rotating Fireplace","Ventifact Bottle","Kyren Toy","Bender's Waterskin","Cloud Key","Staff of Domination","Voltaic Key","Manifold Key","Unwinding Clock","Clock of Omens","Voltaic Construct","Mycosynth Lattice","Mirrorworks","Ultron, Artificial Malevolence","Cogwork Assembler","Rings of Brighthearth","Sonic Screwdriver","Gemstone Array","Karn, Living Legacy","Herald's Horn","Urza's Incubator","Patchwork Banner","Didgeridoo","Belbe's Portal","Cryptic Gateway"],"status":"Ready bubble"},"Resource Theft / Universal Mana":{"subtitle":"“Grubby Hands”","note":"Make absurd mana, turn it into any color, then spend it on opponents' resources or reanimate their best creatures.","cards":["Omnath, Locus of the Void","Portal to Phyrexia","Avarice Totem","Chaos Wand","Muse Vessel","Ornate Kanzashi","Grinning Totem","Helm of Possession","Grimoire of the Dead","Mimic Vat","Dino DNA","Oblivion Sower","Knowledge Pool","Duplicant","Mindslaver","Emrakul, the Promised End","Mycosynth Lattice","Chromatic Orrery","Bender's Waterskin","Sonic Screwdriver","Gonti's Aether Heart","Nexus of Becoming","Staff of Domination","Mirrorworks","Ultron, Artificial Malevolence","Gemstone Array"],"status":"Ready bubble"},"Charge Counter Arsenal":{"subtitle":"Counters become weapons","note":"Build, move, double, and proliferate counters until the same engine wins through Reactor, Lux, Calendar, mill, removal, or mana.","cards":["Omnath, Locus of the Void","Darksteel Reactor","Lux Artillery","The Millennium Calendar","Aetheric Amplifier","Surge Conductor","Energy Chamber","Coretapper","Power Conduit","Surge Node","Karn's Bastion","Astral Cornucopia","Everflowing Chalice","Empowered Autogenerator","Magistrate's Scepter","Lux Cannon","Lost Jitte","Grindclock","Shriekhorn","Talon of Pain","Transmogrifying Wand","Ventifact Bottle","Rotating Fireplace","Elementalist's Palette","Golem Foundry","Titan Forge","Gonti's Aether Heart","Steel Overseer","Arcbound Crusher","Kyren Toy","Golden Urn","Hankyu","Gemstone Array","Karn, Living Legacy","Door of Destinies","Banner of Kinship","Metallic Mimic","Bloodline Pretender"],"status":"Ready bubble"},"Copy Army":{"subtitle":"One machine becomes three","note":"Clone Omnath, copy artifacts, double triggers, and use temporary or permanent copies as both engine and win condition.","cards":["Omnath, Locus of the Void","Mirrorworks","Ultron, Artificial Malevolence","Mirror Box","Echoes of Eternity","Helm of the Host","Sculpting Steel","Lithoform Engine","Strionic Resonator","Prototype Portal","Roaming Throne","Panharmonicon","Mirror of the Forebears","Abstruse Archaic","Mirrorpool","Cogwork Assembler","Nexus of Becoming","Blade of Selves","Mirage Mirror","Rings of Brighthearth","Illusionist's Bracers","Dino DNA","Myr Propagator","Mishra's Self-Replicator","Darksteel Reactor","Lux Artillery","Portal to Phyrexia","Maskwood Nexus"],"status":"Ready bubble"},"Shutdown / Stax":{"subtitle":"We use ours, then shut the door","note":"Slow everyone else while our mana bank, tap/untap tools, and artifact engines break symmetry.","cards":["Omnath, Locus of the Void","Winter Orb","Winter Moon","Static Orb","Trinisphere","Tangle Wire","Kill Switch","Imi Statue","Ensnaring Bridge","Bottled Cloister","Ring of Gix","Uba Mask","Weathered Runestone","Stone of Erech","Conqueror's Flail","Unwinding Clock","Clock of Omens","Voltaic Key","Manifold Key","Sonic Screwdriver","Mycosynth Lattice","Karn, the Great Creator"],"status":"Ready bubble"},"Infinite Mana / Untap Combo":{"subtitle":"Tap, untap, bank, repeat","note":"Multiple independent routes to infinite or effectively unbounded mana, then convert it into cards, damage, mill, copies, or extra turns.","cards":["Omnath, Locus of the Void","Basalt Monolith","Forsaken Monument","Rings of Brighthearth","Mycosynth Lattice","Clock of Omens","Candelabra of Tawnos","Voltaic Construct","Thran Dynamo","Chromatic Orrery","Astral Cornucopia","Everflowing Chalice","Doubling Cube","Staff of Domination","Voltaic Key","Manifold Key","Unwinding Clock","Sonic Screwdriver","Deserted Temple","Sword of Feast and Famine","Bender's Waterskin","Karn, Legacy Reforged","Walking Ballista","Sands of Delirium","Cogwork Assembler","Lux Artillery","Karn, Living Legacy"],"status":"Ready bubble"},"X-Spells / Big Mana":{"subtitle":"Put an absurd number into X","note":"Use the mana core to make X enormous, while Palette and Infiniscope turn each X spell into more fuel and value.","cards":["Omnath, Locus of the Void","Elementalist's Palette","Brass Infiniscope","Walking Ballista","Hangarback Walker","Kozilek's Command","Orochi Hatchery","Astral Cornucopia","Everflowing Chalice","Chimeric Staff","Sands of Delirium","Forsaken Monument","Doubling Cube","Horizon Stone","Staff of Domination","Aetheric Amplifier","Surge Conductor","Rings of Brighthearth"],"status":"Ready bubble"},"Recursion / Sacrifice":{"subtitle":"The machine rebuilds itself","note":"Sacrifice artifacts and creatures for mana/cards, then recur the important pieces and keep the engine moving.","cards":["Omnath, Locus of the Void","Krark-Clan Ironworks","Ashnod's Altar","Scarecrone","Arcbound Reclaimer","Crucible of Worlds","Dross Scorpion","Technodrome","Coretapper","Cold Storage","Soul Separator","Portal to Phyrexia","Buried Ruin","Myr Retriever","Scrap Trawler","Trading Post","Walking Ballista","Golem Foundry","Mimic Vat","The One Ring","Mystic Forge","Darksteel Forge","Pyre of Heroes","Heirloom Blade"],"status":"Ready bubble"},"Combat / Voltron":{"subtitle":"Make Omnath connect once","note":"Protect Omnath, make him unblockable, double combat damage, and turn stored mana into lethal commander damage or direct damage.","cards":["Omnath, Locus of the Void","Commander's Plate","Brotherhood Regalia","Surestrike Trident","Inquisitor's Flail","Gavel of the Righteous","Blade of Selves","Basilisk Collar","Pip-Boy 3000","Witch's Clinic","Rogue's Passage","Mithril Coat","Champion's Helm","Swiftfoot Boots","Lightning Greaves","Sonic Screwdriver","Glaring Spotlight","Sword of Feast and Famine","Krang, Utrom Warlord","Adaptive Omnitool","Darksteel Forge","Cryptothrall","Stoneforge Masterwork","Chronicle of Victory","Banner of Kinship"],"status":"Ready bubble"},"Artifact Token Swarm":{"subtitle":"Turn mana and casts into bodies","note":"Create artifact creature tokens, use them as Clock/altar fuel, grow them with counters, and overwhelm the board.","cards":["Omnath, Locus of the Void","Golem Foundry","Titan Forge","Orochi Hatchery","Birthing Boughs","Myr Propagator","Mishra's Self-Replicator","Hangarback Walker","Steel Overseer","Arcbound Crusher","Technodrome","Ashnod's Altar","Krark-Clan Ironworks","Clock of Omens","Mycosynth Lattice","Ultron, Artificial Malevolence","Mirrorworks","Surge Conductor","Lux Artillery","Cyberman Patrol","Horn of Gondor","Animation Module","Dragon Throne of Tarkir","Karn, Living Legacy","Maskwood Nexus","Door of Destinies","Banner of Kinship","Patchwork Banner","Obelisk of Urd","Metallic Mimic","Adaptive Automaton","Brass Herald","Bloodline Pretender","Chronicle of Victory"],"status":"Ready bubble"},"Draw Punisher / Hand Pressure":{"subtitle":"Give them cards, then make the cards hurt","note":"Use symmetrical draw as bait, punish repeated draws or oversized hands, and combine hand-manipulation artifacts with Omnath's shared mana/copy shell. This is a developing control/punisher build rather than a core package.","cards":["Omnath, Locus of the Void","Howling Mine","Font of Mythos","Anvil of Bogardan","Scrawling Crawler","Iron Maiden","Uba Mask","Bottled Cloister","Ensnaring Bridge","Library of Leng","The One Ring","Mirrorworks","Ultron, Artificial Malevolence","Sculpting Steel","Strionic Resonator","Unwinding Clock","Clock of Omens"],"status":"Developing bubble"},"Every-Type / Kindred Engine":{"subtitle":"Every creature is every type","note":"Maskwood Nexus turns every creature you control, every creature spell you control, and every creature card you own outside the battlefield into every creature type. That includes creatures you steal from opponents while you control them, so stolen creatures immediately join every tribe and receive all of your chosen-type buffs and payoffs. Generic kindred artifacts become universal: cost reducers hit every creature, typal draw engines see every creature, type-based cheat effects can deploy almost anything, and chosen-type buffs cover the whole army.","cards":["Omnath, Locus of the Void","Maskwood Nexus","Roaming Throne","Mirror of the Forebears","Door of Destinies","Herald's Horn","Urza's Incubator","Vanquisher's Banner","Chronicle of Victory","Banner of Kinship","Patchwork Banner","Icon of Ancestry","Obelisk of Urd","Metallic Mimic","Adaptive Automaton","Brass Herald","Pyre of Heroes","Cryptic Gateway","Belbe's Portal","Didgeridoo","Three Tree City","Cavern of Souls","Stoneforge Masterwork","Heirloom Blade","Bloodline Pretender"],"status":"Ready bubble"}},"newCore":["Sonic Screwdriver","Cloud Key","The One Ring","Mystic Forge","Expedition Map","Moonsilver Key","Darksteel Forge","Staff of Domination","Rings of Brighthearth","Brass Infiniscope","Scarecrone"],"luxury":{"Candelabra of Tawnos":"Physical: Deserted Temple / Sword of Feast and Famine / more Key effects","Forcefield":"Physical: cheaper protection slot","Helm of Obedience":"Physical: optional; only use if price makes sense"},"addedLog":[{"card":"Maskwood Nexus","added":"2026-09-26","bubbles":["Copy Army","Artifact Token Swarm","Every-Type / Kindred Engine"]},{"card":"Door of Destinies","added":"2026-09-26","bubbles":["Charge Counter Arsenal","Artifact Token Swarm","Every-Type / Kindred Engine"]},{"card":"Herald's Horn","added":"2026-09-26","bubbles":["Artifact Mana / Machine","Every-Type / Kindred Engine"]},{"card":"Urza's Incubator","added":"2026-09-26","bubbles":["Artifact Mana / Machine","Every-Type / Kindred Engine"]},{"card":"Vanquisher's Banner","added":"2026-09-26","bubbles":["Every-Type / Kindred Engine"]},{"card":"Chronicle of Victory","added":"2026-09-26","bubbles":["Combat / Voltron","Artifact Token Swarm","Every-Type / Kindred Engine"]},{"card":"Banner of Kinship","added":"2026-09-26","bubbles":["Charge Counter Arsenal","Combat / Voltron","Artifact Token Swarm","Every-Type / Kindred Engine"]},{"card":"Patchwork Banner","added":"2026-09-26","bubbles":["Artifact Mana / Machine","Artifact Token Swarm","Every-Type / Kindred Engine"]},{"card":"Icon of Ancestry","added":"2026-09-26","bubbles":["Every-Type / Kindred Engine"]},{"card":"Obelisk of Urd","added":"2026-09-26","bubbles":["Artifact Token Swarm","Every-Type / Kindred Engine"]},{"card":"Metallic Mimic","added":"2026-09-26","bubbles":["Charge Counter Arsenal","Artifact Token Swarm","Every-Type / Kindred Engine"]},{"card":"Adaptive Automaton","added":"2026-09-26","bubbles":["Artifact Token Swarm","Every-Type / Kindred Engine"]},{"card":"Brass Herald","added":"2026-09-26","bubbles":["Artifact Token Swarm","Every-Type / Kindred Engine"]},{"card":"Pyre of Heroes","added":"2026-09-26","bubbles":["Recursion / Sacrifice","Every-Type / Kindred Engine"]},{"card":"Cryptic Gateway","added":"2026-09-26","bubbles":["Artifact Mana / Machine","Every-Type / Kindred Engine"]},{"card":"Belbe's Portal","added":"2026-09-26","bubbles":["Artifact Mana / Machine","Every-Type / Kindred Engine"]},{"card":"Didgeridoo","added":"2026-09-26","bubbles":["Artifact Mana / Machine","Every-Type / Kindred Engine"]},{"card":"Three Tree City","added":"2026-09-26","bubbles":["Mass Land / Landfall","Every-Type / Kindred Engine"]},{"card":"Cavern of Souls","added":"2026-09-26","bubbles":["Mass Land / Landfall","Every-Type / Kindred Engine"]},{"card":"Stoneforge Masterwork","added":"2026-09-26","bubbles":["Combat / Voltron","Every-Type / Kindred Engine"]},{"card":"Heirloom Blade","added":"2026-09-26","bubbles":["Recursion / Sacrifice","Every-Type / Kindred Engine"]},{"card":"Bloodline Pretender","added":"2026-09-26","bubbles":["Charge Counter Arsenal","Artifact Token Swarm","Every-Type / Kindred Engine"]},{"card":"Karn, Living Legacy","added":"2026-09-26","bubbles":["Artifact Mana / Machine","Charge Counter Arsenal","Infinite Mana / Untap Combo","Artifact Token Swarm"]},{"card":"Karn, the Great Creator","added":"2026-09-26","bubbles":["Shutdown / Stax"]},{"card":"Gemstone Array","added":"2026-09-26","bubbles":["Artifact Mana / Machine","Resource Theft / Universal Mana","Charge Counter Arsenal"]},{"card":"Dragon Throne of Tarkir","added":"2026-09-26","bubbles":["Artifact Token Swarm"]},{"card":"Font of Mythos","added":"2026-09-26","bubbles":["Draw Punisher / Hand Pressure"]}]}
+
+const FUSIONS = [
+  {name:"Reactor Factory",a:"Charge Counter Arsenal",b:"Artifact Mana / Machine",score:10.0,lands:36,
+   why:"Charge counters already power your mana rocks; the same counter engine also turns Reactor, Lux, Calendar, Cannon, Cornucopia and Chalice into threats.",
+   must:["Darksteel Reactor","Lux Artillery","Aetheric Amplifier","Surge Conductor","Coretapper","Astral Cornucopia","Everflowing Chalice","Empowered Autogenerator","Doubling Cube","Unwinding Clock","Clock of Omens","Rings of Brighthearth"]},
+  {name:"Triple Reactor",a:"Copy Army",b:"Charge Counter Arsenal",score:9.9,lands:36,
+   why:"Copy the counter engines, copy the win conditions, then proliferate everything. The deck can win from several independent artifacts instead of one fragile plan.",
+   must:["Darksteel Reactor","Lux Artillery","The Millennium Calendar","Aetheric Amplifier","Surge Conductor","Mirrorworks","Mirror Box","Helm of the Host","Cogwork Assembler","Sculpting Steel","Lithoform Engine","Strionic Resonator"]},
+  {name:"Perpetual Engine",a:"Artifact Mana / Machine",b:"Infinite Mana / Untap Combo",score:9.8,lands:35,
+   why:"The mana rocks are the fuel and the untap package is the accelerator. Multiple pieces remain useful alone while several combinations become effectively unlimited mana.",
+   must:["Basalt Monolith","Forsaken Monument","Rings of Brighthearth","Clock of Omens","Voltaic Key","Manifold Key","Unwinding Clock","Staff of Domination","Doubling Cube","Astral Cornucopia","Sands of Delirium","Walking Ballista"]},
+  {name:"Assimilation Protocol",a:"Resource Theft / Universal Mana",b:"Every-Type / Kindred Engine",score:9.6,lands:36,
+   why:"Steal their creatures, then Maskwood Nexus makes those creatures part of every tribe while you control them. Your type buffs turn the opponent's best cards into upgraded members of your army.",
+   must:["Maskwood Nexus","Portal to Phyrexia","Avarice Totem","Vanquisher's Banner","Door of Destinies","Banner of Kinship","Roaming Throne","Three Tree City","Cryptic Gateway","Didgeridoo","Herald's Horn","Urza's Incubator"]},
+  {name:"Land Reactor",a:"Mass Land / Landfall",b:"Infinite Mana / Untap Combo",score:9.5,lands:40,
+   why:"High-output lands become combo pieces when they can be copied and untapped repeatedly. Omnath banks the excess so each untap can permanently increase the resource pile.",
+   must:["Cloudpost","Glimmerpost","Planar Nexus","Vesuva","Thespian's Stage","Deserted Temple","Crucible of Worlds","Walking Atlas","Clock of Omens","Unwinding Clock","Doubling Cube","Forsaken Monument"]},
+  {name:"One Tribe, Every Body",a:"Every-Type / Kindred Engine",b:"Artifact Token Swarm",score:9.4,lands:36,
+   why:"Maskwood makes every token every creature type, so one chosen-type payoff buffs the entire board. Token makers also give Clock, altars and artifact-count cards more material.",
+   must:["Maskwood Nexus","Door of Destinies","Vanquisher's Banner","Banner of Kinship","Chronicle of Victory","Patchwork Banner","Steel Overseer","Golem Foundry","Hangarback Walker","Clock of Omens","Surge Conductor","Lux Artillery"]},
+  {name:"Factory Lock",a:"Shutdown / Stax",b:"Artifact Mana / Machine",score:9.2,lands:36,
+   why:"Tax or restrict the table while your artifact mana and forced untaps let you break parity. This is the control version of Omnath rather than the fastest combo version.",
+   must:["Static Orb","Trinisphere","Winter Orb","Tangle Wire","Karn, the Great Creator","Mycosynth Lattice","Unwinding Clock","Clock of Omens","Voltaic Key","Sonic Screwdriver","Forsaken Monument","Doubling Cube"]},
+  {name:"Borrowed Army",a:"Copy Army",b:"Resource Theft / Universal Mana",score:9.1,lands:36,
+   why:"The theft package takes the best things at the table, while the copy package multiplies Portal, theft engines and whatever artifact becomes the most valuable permanent in play.",
+   must:["Portal to Phyrexia","Avarice Totem","Mirrorworks","Cogwork Assembler","Sculpting Steel","Nexus of Becoming","Dino DNA","Mimic Vat","Lithoform Engine","Strionic Resonator","Mycosynth Lattice","Chromatic Orrery"]}
+];
+
+const LAND_NAMES = new Set([
+"Ancient Tomb","Blast Zone","Buried Ruin","Cavern of Souls","Cloudpost","Darksteel Citadel",
+"Demolition Field","Deserted Temple","Field of Ruin","Ghost Quarter","Glimmerpost","Guildless Commons",
+"Homeward Path","Inventors' Fair","Karn's Bastion","Mirrorpool","Myriad Landscape","Planar Nexus",
+"Plaza of Heroes","Reliquary Tower","Rogue's Passage","Scavenger Grounds","Shrine of the Forsaken Gods",
+"Terrain Generator","The Mycosynth Gardens","Thespian's Stage","Three Tree City","Treasure Vault",
+"Urza's Saga","Vesuva","War Room","Wasteland","Wastes","Witch's Clinic"
+]);
+
+const TYPE_PACKAGE = new Set([
+"Maskwood Nexus","Door of Destinies","Herald's Horn","Urza's Incubator","Vanquisher's Banner",
+"Chronicle of Victory","Banner of Kinship","Patchwork Banner","Icon of Ancestry","Obelisk of Urd",
+"Metallic Mimic","Adaptive Automaton","Brass Herald","Pyre of Heroes","Cryptic Gateway","Belbe's Portal",
+"Didgeridoo","Three Tree City","Cavern of Souls","Stoneforge Masterwork","Heirloom Blade","Bloodline Pretender"
+]);
+
+const COMMON_LANDS = [
+"Ancient Tomb","Blast Zone","Buried Ruin","Darksteel Citadel","Demolition Field","Field of Ruin",
+"Ghost Quarter","Homeward Path","Inventors' Fair","Karn's Bastion","Myriad Landscape","Reliquary Tower",
+"Rogue's Passage","Scavenger Grounds","Shrine of the Forsaken Gods","The Mycosynth Gardens","Treasure Vault",
+"Urza's Saga","War Room"
+];
+
+const LAND_EXTRAS = {
+"Mass Land / Landfall":["Cloudpost","Glimmerpost","Planar Nexus","Vesuva","Thespian's Stage","Deserted Temple","Terrain Generator","Mirrorpool","Wasteland","Guildless Commons"],
+"Every-Type / Kindred Engine":["Three Tree City","Cavern of Souls"],
+"Resource Theft / Universal Mana":["Homeward Path"],
+"Combat / Voltron":["Witch's Clinic"],
+"Copy Army":["Mirrorpool"]
+};
+
+const GLOBAL_GLUE = [
+"Sol Ring","The One Ring","Mystic Forge","Expedition Map","Moonsilver Key","Sonic Screwdriver",
+"Cloud Key","Darksteel Forge","Mithril Coat","Lightning Greaves","Swiftfoot Boots","Commander's Plate",
+"Cryptothrall","Forsaken Monument","Doubling Cube","Horizon Stone","Voltaic Key","Manifold Key",
+"Unwinding Clock","Clock of Omens","Staff of Domination","Rings of Brighthearth","Walking Ballista",
+"Portal to Phyrexia","Cogwork Assembler","Karn, Legacy Reforged","Karn, Living Legacy"
+];
+
+let selectedFusion = 0;
+
+function uniquePush(arr,card){
+  if(card && card!=="Omnath, Locus of the Void" && !arr.includes(card)) arr.push(card);
+}
+function buildFusionDeck(f){
+  const a=DATA.decks[f.a]?.cards||[],b=DATA.decks[f.b]?.cards||[],core=DATA.decks.Core.cards||[];
+  const spells=[],shared=a.filter(c=>b.includes(c));
+  const useTypal=(f.a==="Every-Type / Kindred Engine"||f.b==="Every-Type / Kindred Engine");
+  [...shared,...(f.must||[]),...a,...b,...core,...GLOBAL_GLUE].forEach(c=>{
+    if(LAND_NAMES.has(c)) return;
+    if(!useTypal&&TYPE_PACKAGE.has(c)) return;
+    if(mode==="physical"&&DATA.luxury[c]) return;
+    uniquePush(spells,c);
+  });
+  const chosen=spells.slice(0,99-f.lands),landPool=[];
+  [...(LAND_EXTRAS[f.a]||[]),...(LAND_EXTRAS[f.b]||[]),...COMMON_LANDS].forEach(c=>{
+    if(!(mode==="physical"&&DATA.luxury[c])&&!landPool.includes(c)) landPool.push(c);
+  });
+  const lands=landPool.slice(0,f.lands);
+  while(lands.length<f.lands) lands.push("Wastes");
+  return ["Omnath, Locus of the Void",...chosen,...lands];
+}
+function manaboxText(f){
+  const counts=new Map();
+  buildFusionDeck(f).forEach(c=>counts.set(c,(counts.get(c)||0)+1));
+  const lines=["[COMMANDER]","1 Omnath, Locus of the Void","","[MAINBOARD]"];
+  for(const [card,n] of counts){if(card!=="Omnath, Locus of the Void") lines.push(n+" "+card);}
+  return lines.join("\n");
+}
+function copyFusionDeck(f,btn){
+  const txt=manaboxText(f);
+  const done=()=>{if(btn){const old=btn.textContent;btn.textContent="Copied";btn.classList.add("copy-ok");setTimeout(()=>{btn.textContent=old;btn.classList.remove("copy-ok")},1200)}};
+  if(navigator.clipboard?.writeText) navigator.clipboard.writeText(txt).then(done).catch(()=>{const ta=document.createElement("textarea");ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove();done();});
+  else{const ta=document.createElement("textarea");ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove();done();}
+}
+function renderFusionGrid(){
+  const map=document.getElementById("map"),head=document.getElementById("mapHeading"),hint=document.getElementById("mapHint");
+  if(head) head.textContent="Best Fusion Decks";
+  if(hint) hint.textContent="Scores rate package synergy, not absolute power";
+  map.className="fusion-grid";map.innerHTML="";
+  FUSIONS.forEach((f,i)=>{
+    const el=document.createElement("div");el.className="fusion-card"+(i===selectedFusion?" selected":"");
+    el.innerHTML='<div class="fusion-top"><div><div class="fusion-name">'+f.name+'</div><div class="fusion-pair">'+f.a+' + '+f.b+'</div></div><div class="fusion-score">'+f.score.toFixed(1)+'/10</div></div><div class="fusion-why">'+f.why+'</div>';
+    el.onclick=()=>{selectedFusion=i;renderFusionGrid();renderFusionDetail();};map.appendChild(el);
+  });
+}
+function renderFusionDetail(){
+  const f=FUSIONS[selectedFusion]||FUSIONS[0],deck=buildFusionDeck(f);
+  document.getElementById("kicker").textContent="Fusion deck";
+  document.getElementById("title").textContent=f.name;
+  document.getElementById("note").textContent=f.why+" This is a live 100-card draft built from the current two bubbles plus shared Core; it changes as the atlas grows.";
+  document.getElementById("status").textContent=f.score.toFixed(1)+"/10 synergy";
+  document.getElementById("count").textContent=deck.length+" cards";
+  document.getElementById("overlapCount").textContent=f.a+" + "+f.b;
+  const cardsEl=document.getElementById("cards");cardsEl.innerHTML="";
+  const tools=document.createElement("div");tools.className="deck-toolbar";
+  const copy=document.createElement("button");copy.textContent="Copy for ManaBox";copy.onclick=()=>copyFusionDeck(f,copy);
+  const modeNote=document.createElement("span");modeNote.className="pill";modeNote.textContent=mode==="physical"?"Physical-friendly list":"Proxy / unrestricted list";
+  tools.append(copy,modeNote);cardsEl.appendChild(tools);
+  const q=document.getElementById("search").value.trim().toLowerCase(),counts=new Map();deck.forEach(c=>counts.set(c,(counts.get(c)||0)+1));
+  for(const [card,n] of counts){
+    if(q&&!card.toLowerCase().includes(q)) continue;
+    const line=document.createElement("div");line.className="deckline"+(card==="Omnath, Locus of the Void"?" commander":"");
+    line.textContent=n+" "+card+(card==="Omnath, Locus of the Void"?" — Commander":"");cardsEl.appendChild(line);
+  }
+  const chips=document.getElementById("chips");chips.innerHTML="";
+  [f.a,f.b].forEach(n=>{const ch=document.createElement("span");ch.className="chip";ch.textContent=n;ch.style.cursor="pointer";ch.onclick=()=>{specialView=null;selected=n;drawMap();renderPanel();updateTopButtons();};chips.appendChild(ch);});
+}
+
 const names = Object.keys(DATA.decks);
 let selected = "Core";
 let mode = "proxy";
@@ -142,7 +296,12 @@ function positions(){
 }
 
 function drawMap(){
-  const map=document.getElementById("map"); map.innerHTML="";
+  const map=document.getElementById("map");
+  if(specialView==="fusion"){renderFusionGrid();return;}
+  const head=document.getElementById("mapHeading"), hint=document.getElementById("mapHint");
+  if(head) head.textContent="Deck-type bubbles";
+  if(hint) hint.textContent="Click any bubble";
+  map.className=""; map.innerHTML="";
   const pos=positions();
   names.filter(n=>n!=="Core").forEach(n=>{
     const a=pos.Core,b=pos[n],dx=b.x-a.x,dy=b.y-a.y,len=Math.hypot(dx,dy),ang=Math.atan2(dy,dx)*180/Math.PI;
@@ -167,6 +326,8 @@ function updateTopButtons(){
   const count=document.getElementById("newCardsCount");
   if(count) count.textContent="("+((DATA.addedLog||[]).length)+")";
   if(btn) btn.classList.toggle("active", specialView==="new");
+  const fusion=document.getElementById("fusionBtn");
+  if(fusion) fusion.classList.toggle("active", specialView==="fusion");
 }
 
 function renderNewCards(){
@@ -194,6 +355,7 @@ function renderNewCards(){
 
 function renderPanel(cardFocus=null){
   if(specialView==="new"){ renderNewCards(); updateTopButtons(); return; }
+  if(specialView==="fusion"){ renderFusionDetail(); updateTopButtons(); return; }
   const d=DATA.decks[selected];
   document.getElementById("kicker").textContent=d.subtitle;
   document.getElementById("title").textContent=selected;
@@ -234,8 +396,9 @@ function showMembership(card){
 
 document.getElementById("search").addEventListener("input",()=>renderPanel());
 document.getElementById("newCardsBtn").onclick=()=>{specialView="new";drawMap();renderPanel();updateTopButtons();};
-document.getElementById("proxyBtn").onclick=()=>{mode="proxy";proxyBtn.classList.add("active");physicalBtn.classList.remove("active");renderPanel();};
-document.getElementById("physicalBtn").onclick=()=>{mode="physical";physicalBtn.classList.add("active");proxyBtn.classList.remove("active");renderPanel();};
+document.getElementById("fusionBtn").onclick=()=>{specialView="fusion";drawMap();renderPanel();updateTopButtons();};
+document.getElementById("proxyBtn").onclick=()=>{mode="proxy";proxyBtn.classList.add("active");physicalBtn.classList.remove("active");renderPanel();if(specialView==="fusion")renderFusionGrid();};
+document.getElementById("physicalBtn").onclick=()=>{mode="physical";physicalBtn.classList.add("active");proxyBtn.classList.remove("active");renderPanel();if(specialView==="fusion")renderFusionGrid();};
 drawMap();renderPanel();updateTopButtons();
 </script>
 </body></html>
