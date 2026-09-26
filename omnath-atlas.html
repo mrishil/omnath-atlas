@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Omnath Multiverse — One Commander, Many Decks</title>
+<style>
+:root {
+  --bg:#0b0d10; --panel:#12161c; --panel2:#171c23; --text:#eef3f8; --muted:#9aa7b3;
+  --line:#2b3440; --accent:#77d5ff; --accent2:#c29cff; --good:#7ef0a8; --warn:#ffd36e;
+  --core:#ffcf5a; --shadow:0 14px 42px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+body{margin:0;background:
+radial-gradient(circle at 50% -10%,rgba(119,213,255,.14),transparent 32%),
+radial-gradient(circle at 15% 35%,rgba(194,156,255,.08),transparent 28%),
+var(--bg);color:var(--text);font:15px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{padding:28px 22px 18px;max-width:1500px;margin:auto;display:flex;gap:18px;align-items:flex-end;justify-content:space-between;flex-wrap:wrap}
+h1{margin:0;font-size:clamp(28px,4vw,48px);letter-spacing:-.04em}
+.subtitle{color:var(--muted);max-width:780px;margin-top:8px}
+.controls{display:flex;gap:10px;flex-wrap:wrap}
+button,input{font:inherit}
+button{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:12px;padding:9px 12px;cursor:pointer}
+button:hover{border-color:#536173}
+button.active{background:#223140;border-color:#5db8e0}
+input{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:10px 12px;min-width:230px}
+main{max-width:1500px;margin:auto;padding:0 22px 30px;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(340px,.75fr);gap:18px}
+.card{background:linear-gradient(180deg,rgba(255,255,255,.025),transparent 60%),var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+.mapwrap{padding:16px;min-height:720px;position:relative;overflow:hidden}
+.map-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.map-title h2,.panel h2{margin:0;font-size:18px}
+.small{color:var(--muted);font-size:12px}
+#map{position:relative;height:650px;min-width:700px;transform-origin:top left}
+.connector{position:absolute;height:1px;background:linear-gradient(90deg,transparent,#334252 20%,#334252 80%,transparent);transform-origin:left center;opacity:.75;pointer-events:none}
+.bubble{position:absolute;border-radius:999px;border:1px solid #405063;background:
+radial-gradient(circle at 35% 25%,rgba(255,255,255,.10),transparent 24%),
+linear-gradient(145deg,#18212b,#10151b);
+box-shadow:0 10px 28px rgba(0,0,0,.28), inset 0 0 0 1px rgba(255,255,255,.02);
+display:flex;align-items:center;justify-content:center;text-align:center;padding:10px;cursor:pointer;transition:.18s transform,.18s border-color,.18s box-shadow;user-select:none}
+.bubble:hover{transform:scale(1.04);border-color:#6b8299}
+.bubble.selected{border-color:var(--accent);box-shadow:0 0 0 2px rgba(119,213,255,.18),0 12px 32px rgba(0,0,0,.36)}
+.bubble.core{background:radial-gradient(circle at 35% 25%,rgba(255,255,255,.15),transparent 23%),linear-gradient(145deg,#5a4617,#251d0c);border-color:#9b7b2e}
+.bubble .name{font-weight:800;font-size:13px;line-height:1.15}
+.bubble .count{font-size:10px;color:var(--muted);margin-top:5px}
+.panel{padding:18px;min-height:720px;position:sticky;top:10px;align-self:start}
+.panel-head{padding-bottom:14px;border-bottom:1px solid var(--line)}
+.kicker{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);font-weight:800}
+.note{color:#c1ccd6;margin:8px 0 0}
+.statrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.pill{border:1px solid var(--line);background:#0e1217;border-radius:999px;padding:5px 8px;font-size:11px;color:#c9d3dc}
+.pill.good{color:var(--good);border-color:#2f6650}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:14px;max-height:520px;overflow:auto;padding-right:4px}
+.carditem{padding:9px 10px;border:1px solid var(--line);background:#0e1217;border-radius:11px;font-size:12px;cursor:pointer;position:relative}
+.carditem:hover{border-color:#536173}
+.carditem.new::after{content:"NEW CORE";position:absolute;right:6px;top:6px;font-size:8px;color:#261b00;background:var(--core);padding:2px 5px;border-radius:6px;font-weight:900}
+.carditem.luxury::after{content:"LUXURY";position:absolute;right:6px;top:6px;font-size:8px;color:#2d2100;background:var(--warn);padding:2px 5px;border-radius:6px;font-weight:900}
+.overlaps{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
+.overlaps .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.chip{padding:4px 7px;border-radius:8px;background:#1a2129;border:1px solid #303b47;font-size:10px;color:#c8d2dc}
+.legend{max-width:1500px;margin:auto;padding:0 22px 22px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.legend .card{padding:14px}
+.legend strong{display:block;margin-bottom:4px}
+.notice{color:var(--muted);font-size:12px}
+@media(max-width:980px){
+ main{grid-template-columns:1fr}
+ .panel{position:static;min-height:0}
+ .mapwrap{min-height:610px;overflow:auto}
+ #map{transform:scale(.82);height:560px}
+ .legend{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <div class="kicker">Omnath Multiverse</div>
+    <h1>One Commander. Many Decks.</h1>
+    <div class="subtitle">A living atlas for Omnath, Locus of the Void. Cards can live in multiple bubbles. When a new synergy package becomes deep enough to support a real build, it earns its own bubble.</div>
+  </div>
+  <div class="controls">
+    <input id="search" placeholder="Search a card…">
+    <button id="proxyBtn" class="active">Proxy / Unrestricted</button>
+    <button id="physicalBtn">No-Proxy / Physical</button>
+  </div>
+</header>
+
+<main>
+  <section class="card mapwrap">
+    <div class="map-title">
+      <h2>Deck-type bubbles</h2>
+      <span class="small">Click any bubble</span>
+    </div>
+    <div id="map"></div>
+  </section>
+
+  <aside class="card panel">
+    <div class="panel-head">
+      <div class="kicker" id="kicker">Shared shell</div>
+      <h2 id="title">Core</h2>
+      <p class="note" id="note"></p>
+      <div class="statrow">
+        <span class="pill good" id="status"></span>
+        <span class="pill" id="count"></span>
+        <span class="pill" id="overlapCount"></span>
+      </div>
+    </div>
+    <div class="cards" id="cards"></div>
+    <div class="overlaps">
+      <strong>Overlap map</strong>
+      <div class="small">Click a card to see every bubble it belongs to.</div>
+      <div class="chips" id="chips"></div>
+    </div>
+  </aside>
+</main>
+
+<section class="legend">
+  <div class="card"><strong>Core rule</strong><div class="notice">Core is the shared high-priority pool, not a promise that every final 99 contains every core card. Deck-type bubbles can swap cards in and out while keeping Omnath at the center.</div></div>
+  <div class="card"><strong>11 new core adds</strong><div class="notice">Sonic Screwdriver, Cloud Key, The One Ring, Mystic Forge, Expedition Map, Moonsilver Key, Darksteel Forge, Staff of Domination, Rings of Brighthearth, Brass Infiniscope, Scarecrone.</div></div>
+  <div class="card"><strong>Price handling</strong><div class="notice">Proxy mode may use luxury cards. Physical mode flags them and shows the practical replacement note instead of making the deck depend on them.</div></div>
+</section>
+
+<script>
+const DATA = {"decks": {"Core": {"subtitle": "Shared high-priority pool", "note": "The central Omnath shell. These are the cards we currently trust across the most builds. The 11 newest core adds are highlighted.", "cards": ["Omnath, Locus of the Void", "Doubling Cube", "Horizon Stone", "Forsaken Monument", "Astral Cornucopia", "Basalt Monolith", "Mycosynth Lattice", "Mirrorworks", "Ultron, Artificial Malevolence", "Mirror Box", "Echoes of Eternity", "Helm of the Host", "Sculpting Steel", "Lithoform Engine", "Strionic Resonator", "Prototype Portal", "Roaming Throne", "Panharmonicon", "Mirror of the Forebears", "Abstruse Archaic", "Mirrorpool", "Aetheric Amplifier", "Energy Chamber", "Karn's Bastion", "Walking Ballista", "Everflowing Chalice", "Empowered Autogenerator", "Darksteel Reactor", "Lux Artillery", "Coretapper", "The Millennium Calendar", "Surge Conductor", "Gonti's Aether Heart", "Voltaic Key", "Manifold Key", "Unwinding Clock", "Clock of Omens", "Thousand-Year Elixir", "Voltaic Construct", "Mithril Coat", "Champion's Helm", "Swiftfoot Boots", "Lightning Greaves", "Commander's Plate", "Not of This World", "Plaza of Heroes", "Soul of New Phyrexia", "Cryptothrall", "Treasure Vault", "Terrain Generator", "Vesuva", "Thespian's Stage", "Cloudpost", "Glimmerpost", "Planar Nexus", "Deserted Temple", "Walking Atlas", "Winter Orb", "Winter Moon", "Static Orb", "Portal to Phyrexia", "Cogwork Assembler", "Sonic Screwdriver", "Cloud Key", "The One Ring", "Mystic Forge", "Expedition Map", "Moonsilver Key", "Darksteel Forge", "Staff of Domination", "Rings of Brighthearth", "Brass Infiniscope", "Scarecrone"], "status": "73-card core pool"}, "Mass Land / Landfall": {"subtitle": "Lands become the engine", "note": "Explode land count, copy high-output lands, untap them repeatedly, and turn every land entry into mana/value.", "cards": ["Omnath, Locus of the Void", "Cloudpost", "Glimmerpost", "Planar Nexus", "Vesuva", "Thespian's Stage", "Deserted Temple", "Terrain Generator", "Walking Atlas", "Crucible of Worlds", "Amulet of Vigor", "Sword of Feast and Famine", "Pip-Boy 3000", "Wasteland", "Urza's Saga", "Treasure Vault", "Mirrorpool", "Expedition Map", "Moonsilver Key", "Mycosynth Lattice", "Unwinding Clock", "Clock of Omens", "Sonic Screwdriver", "Forsaken Monument", "Doubling Cube", "Horizon Stone", "Karn's Bastion", "The Mycosynth Gardens", "Urza's Workshop", "Guildless Commons"], "status": "Ready bubble"}, "Artifact Mana / Machine": {"subtitle": "Mana rocks become a factory", "note": "Stack mana artifacts, copy them, untap them, bank excess mana, and convert that resource lead into wins.", "cards": ["Omnath, Locus of the Void", "Sol Ring", "Mana Vault", "Grim Monolith", "Basalt Monolith", "Everflowing Chalice", "Astral Cornucopia", "Empowered Autogenerator", "Thran Dynamo", "Chromatic Orrery", "Forsaken Monument", "Doubling Cube", "Horizon Stone", "Gilded Lotus", "Brass Infiniscope", "Rotating Fireplace", "Ventifact Bottle", "Kyren Toy", "Bender's Waterskin", "Cloud Key", "Staff of Domination", "Voltaic Key", "Manifold Key", "Unwinding Clock", "Clock of Omens", "Voltaic Construct", "Mycosynth Lattice", "Mirrorworks", "Ultron, Artificial Malevolence", "Cogwork Assembler", "Rings of Brighthearth", "Sonic Screwdriver"], "status": "Ready bubble"}, "Resource Theft / Universal Mana": {"subtitle": "\u201cGrubby Hands\u201d", "note": "Make absurd mana, turn it into any color, then spend it on opponents' resources or reanimate their best creatures.", "cards": ["Omnath, Locus of the Void", "Portal to Phyrexia", "Avarice Totem", "Chaos Wand", "Muse Vessel", "Ornate Kanzashi", "Grinning Totem", "Helm of Possession", "Grimoire of the Dead", "Mimic Vat", "Dino DNA", "Oblivion Sower", "Knowledge Pool", "Duplicant", "Mindslaver", "Emrakul, the Promised End", "Mycosynth Lattice", "Chromatic Orrery", "Bender's Waterskin", "Sonic Screwdriver", "Gonti's Aether Heart", "Nexus of Becoming", "Staff of Domination", "Mirrorworks", "Ultron, Artificial Malevolence"], "status": "Ready bubble"}, "Charge Counter Arsenal": {"subtitle": "Counters become weapons", "note": "Build, move, double, and proliferate counters until the same engine wins through Reactor, Lux, Calendar, mill, removal, or mana.", "cards": ["Omnath, Locus of the Void", "Darksteel Reactor", "Lux Artillery", "The Millennium Calendar", "Aetheric Amplifier", "Surge Conductor", "Energy Chamber", "Coretapper", "Power Conduit", "Surge Node", "Karn's Bastion", "Astral Cornucopia", "Everflowing Chalice", "Empowered Autogenerator", "Magistrate's Scepter", "Lux Cannon", "Lost Jitte", "Grindclock", "Shriekhorn", "Talon of Pain", "Transmogrifying Wand", "Ventifact Bottle", "Rotating Fireplace", "Elementalist's Palette", "Golem Foundry", "Titan Forge", "Gonti's Aether Heart", "Steel Overseer", "Arcbound Crusher", "Kyren Toy", "Golden Urn", "Hankyu"], "status": "Ready bubble"}, "Copy Army": {"subtitle": "One machine becomes three", "note": "Clone Omnath, copy artifacts, double triggers, and use temporary or permanent copies as both engine and win condition.", "cards": ["Omnath, Locus of the Void", "Mirrorworks", "Ultron, Artificial Malevolence", "Mirror Box", "Echoes of Eternity", "Helm of the Host", "Sculpting Steel", "Lithoform Engine", "Strionic Resonator", "Prototype Portal", "Roaming Throne", "Panharmonicon", "Mirror of the Forebears", "Abstruse Archaic", "Mirrorpool", "Cogwork Assembler", "Nexus of Becoming", "Blade of Selves", "Mirage Mirror", "Rings of Brighthearth", "Illusionist's Bracers", "Dino DNA", "Myr Propagator", "Mishra's Self-Replicator", "Darksteel Reactor", "Lux Artillery", "Portal to Phyrexia"], "status": "Ready bubble"}, "Shutdown / Stax": {"subtitle": "We use ours, then shut the door", "note": "Slow everyone else while our mana bank, tap/untap tools, and artifact engines break symmetry.", "cards": ["Omnath, Locus of the Void", "Winter Orb", "Winter Moon", "Static Orb", "Trinisphere", "Tangle Wire", "Kill Switch", "Imi Statue", "Ensnaring Bridge", "Bottled Cloister", "Ring of Gix", "Uba Mask", "Weathered Runestone", "Stone of Erech", "Conqueror's Flail", "Unwinding Clock", "Clock of Omens", "Voltaic Key", "Manifold Key", "Sonic Screwdriver", "Mycosynth Lattice"], "status": "Ready bubble"}, "Infinite Mana / Untap Combo": {"subtitle": "Tap, untap, bank, repeat", "note": "Multiple independent routes to infinite or effectively unbounded mana, then convert it into cards, damage, mill, copies, or extra turns.", "cards": ["Omnath, Locus of the Void", "Basalt Monolith", "Forsaken Monument", "Rings of Brighthearth", "Mycosynth Lattice", "Clock of Omens", "Candelabra of Tawnos", "Voltaic Construct", "Thran Dynamo", "Chromatic Orrery", "Astral Cornucopia", "Everflowing Chalice", "Doubling Cube", "Staff of Domination", "Voltaic Key", "Manifold Key", "Unwinding Clock", "Sonic Screwdriver", "Deserted Temple", "Sword of Feast and Famine", "Bender's Waterskin", "Karn, Legacy Reforged", "Walking Ballista", "Sands of Delirium", "Cogwork Assembler", "Lux Artillery"], "status": "Ready bubble"}, "X-Spells / Big Mana": {"subtitle": "Put an absurd number into X", "note": "Use the mana core to make X enormous, while Palette and Infiniscope turn each X spell into more fuel and value.", "cards": ["Omnath, Locus of the Void", "Elementalist's Palette", "Brass Infiniscope", "Walking Ballista", "Hangarback Walker", "Kozilek's Command", "Orochi Hatchery", "Astral Cornucopia", "Everflowing Chalice", "Chimeric Staff", "Sands of Delirium", "Forsaken Monument", "Doubling Cube", "Horizon Stone", "Staff of Domination", "Aetheric Amplifier", "Surge Conductor", "Rings of Brighthearth"], "status": "Ready bubble"}, "Recursion / Sacrifice": {"subtitle": "The machine rebuilds itself", "note": "Sacrifice artifacts and creatures for mana/cards, then recur the important pieces and keep the engine moving.", "cards": ["Omnath, Locus of the Void", "Krark-Clan Ironworks", "Ashnod's Altar", "Scarecrone", "Arcbound Reclaimer", "Crucible of Worlds", "Dross Scorpion", "Technodrome", "Coretapper", "Cold Storage", "Soul Separator", "Portal to Phyrexia", "Buried Ruin", "Myr Retriever", "Scrap Trawler", "Trading Post", "Walking Ballista", "Golem Foundry", "Mimic Vat", "The One Ring", "Mystic Forge", "Darksteel Forge"], "status": "Ready bubble"}, "Combat / Voltron": {"subtitle": "Make Omnath connect once", "note": "Protect Omnath, make him unblockable, double combat damage, and turn stored mana into lethal commander damage or direct damage.", "cards": ["Omnath, Locus of the Void", "Commander's Plate", "Brotherhood Regalia", "Surestrike Trident", "Inquisitor's Flail", "Gavel of the Righteous", "Blade of Selves", "Basilisk Collar", "Pip-Boy 3000", "Witch's Clinic", "Rogue's Passage", "Mithril Coat", "Champion's Helm", "Swiftfoot Boots", "Lightning Greaves", "Sonic Screwdriver", "Glaring Spotlight", "Sword of Feast and Famine", "Krang, Utrom Warlord", "Adaptive Omnitool", "Darksteel Forge", "Cryptothrall"], "status": "Ready bubble"}, "Artifact Token Swarm": {"subtitle": "Turn mana and casts into bodies", "note": "Create artifact creature tokens, use them as Clock/altar fuel, grow them with counters, and overwhelm the board.", "cards": ["Omnath, Locus of the Void", "Golem Foundry", "Titan Forge", "Orochi Hatchery", "Birthing Boughs", "Myr Propagator", "Mishra's Self-Replicator", "Hangarback Walker", "Steel Overseer", "Arcbound Crusher", "Technodrome", "Ashnod's Altar", "Krark-Clan Ironworks", "Clock of Omens", "Mycosynth Lattice", "Ultron, Artificial Malevolence", "Mirrorworks", "Surge Conductor", "Lux Artillery", "Cyberman Patrol", "Horn of Gondor", "Animation Module"], "status": "Ready bubble"}}, "newCore": ["Sonic Screwdriver", "Cloud Key", "The One Ring", "Mystic Forge", "Expedition Map", "Moonsilver Key", "Darksteel Forge", "Staff of Domination", "Rings of Brighthearth", "Brass Infiniscope", "Scarecrone"], "luxury": {"Candelabra of Tawnos": "Physical: Deserted Temple / Sword of Feast and Famine / more Key effects", "Forcefield": "Physical: cheaper protection slot", "Helm of Obedience": "Physical: optional; only use if price makes sense"}};
+const names = Object.keys(DATA.decks);
+let selected = "Core";
+let mode = "proxy";
+
+function memberships(card){
+  return names.filter(n => DATA.decks[n].cards.includes(card));
+}
+
+function positions(){
+  const center={x:350,y:315};
+  const ring1=["Mass Land / Landfall","Artifact Mana / Machine","Resource Theft / Universal Mana","Charge Counter Arsenal","Copy Army"];
+  const ring2=["Shutdown / Stax","Infinite Mana / Untap Combo","X-Spells / Big Mana","Recursion / Sacrifice","Combat / Voltron","Artifact Token Swarm"];
+  const pos={Core:center};
+  ring1.forEach((n,i)=>{let a=(-90+i*72)*Math.PI/180;pos[n]={x:center.x+185*Math.cos(a),y:center.y+165*Math.sin(a)}});
+  ring2.forEach((n,i)=>{let a=(-90+i*60)*Math.PI/180;pos[n]={x:center.x+300*Math.cos(a),y:center.y+275*Math.sin(a)}});
+  return pos;
+}
+
+function drawMap(){
+  const map=document.getElementById("map"); map.innerHTML="";
+  const pos=positions();
+  names.filter(n=>n!=="Core").forEach(n=>{
+    const a=pos.Core,b=pos[n],dx=b.x-a.x,dy=b.y-a.y,len=Math.hypot(dx,dy),ang=Math.atan2(dy,dx)*180/Math.PI;
+    const line=document.createElement("div"); line.className="connector";
+    line.style.left=a.x+"px";line.style.top=a.y+"px";line.style.width=len+"px";line.style.transform=`rotate(${ang}deg)`;
+    map.appendChild(line);
+  });
+  names.forEach(n=>{
+    const d=DATA.decks[n], p=pos[n];
+    const size=n==="Core"?124:(n.length>24?108:100);
+    const el=document.createElement("div");
+    el.className="bubble"+(n==="Core"?" core":"")+(n===selected?" selected":"");
+    el.style.width=size+"px";el.style.height=size+"px";el.style.left=(p.x-size/2)+"px";el.style.top=(p.y-size/2)+"px";
+    el.innerHTML=`<div><div class="name">${n}</div><div class="count">${d.cards.length} cards</div></div>`;
+    el.onclick=()=>{selected=n;drawMap();renderPanel();};
+    map.appendChild(el);
+  });
+}
+
+function renderPanel(cardFocus=null){
+  const d=DATA.decks[selected];
+  document.getElementById("kicker").textContent=d.subtitle;
+  document.getElementById("title").textContent=selected;
+  document.getElementById("note").textContent=d.note;
+  document.getElementById("status").textContent=d.status;
+  document.getElementById("count").textContent=d.cards.length+" cards in bubble";
+  const avg=Math.round(d.cards.reduce((s,c)=>s+memberships(c).length,0)/Math.max(1,d.cards.length)*10)/10;
+  document.getElementById("overlapCount").textContent="avg "+avg+" bubbles/card";
+  const q=document.getElementById("search").value.trim().toLowerCase();
+  const cardsEl=document.getElementById("cards"); cardsEl.innerHTML="";
+  let visible=d.cards.filter(c=>!q || c.toLowerCase().includes(q));
+  visible.forEach(c=>{
+    const item=document.createElement("div");
+    item.className="carditem"+(DATA.newCore.includes(c)?" new":"")+(DATA.luxury[c]?" luxury":"");
+    let label=c;
+    if(mode==="physical" && DATA.luxury[c]) label += " — "+DATA.luxury[c];
+    item.textContent=label;
+    item.onclick=()=>showMembership(c);
+    cardsEl.appendChild(item);
+  });
+  if(!visible.length) cardsEl.innerHTML='<div class="small">No matches in this bubble.</div>';
+  if(cardFocus) showMembership(cardFocus); else {
+    const chips=document.getElementById("chips");chips.innerHTML="";
+    const ranked=[...new Set(d.cards.flatMap(memberships))].filter(n=>n!==selected);
+    ranked.slice(0,10).forEach(n=>{const ch=document.createElement("span");ch.className="chip";ch.textContent=n;chips.appendChild(ch);});
+  }
+}
+
+function showMembership(card){
+  const chips=document.getElementById("chips");chips.innerHTML="";
+  const label=document.createElement("span");label.className="chip";label.textContent=card;label.style.borderColor="#77d5ff";chips.appendChild(label);
+  memberships(card).forEach(n=>{
+    const ch=document.createElement("span");ch.className="chip";ch.textContent=n;ch.style.cursor="pointer";
+    ch.onclick=()=>{selected=n;drawMap();renderPanel(card);};
+    chips.appendChild(ch);
+  });
+}
+
+document.getElementById("search").addEventListener("input",()=>renderPanel());
+document.getElementById("proxyBtn").onclick=()=>{mode="proxy";proxyBtn.classList.add("active");physicalBtn.classList.remove("active");renderPanel();};
+document.getElementById("physicalBtn").onclick=()=>{mode="physical";physicalBtn.classList.add("active");proxyBtn.classList.remove("active");renderPanel();};
+drawMap();renderPanel();
+</script>
+</body></html>
