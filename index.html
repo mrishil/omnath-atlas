@@ -143,9 +143,33 @@ linear-gradient(145deg,#171f28,#0f141a);box-shadow:var(--shadow);transition:.18s
 .library-item span{display:block;color:var(--muted);margin-top:6px}
 @media(max-width:720px){.main-menu-grid,.library-grid{grid-template-columns:1fr}.main-menu-btn{min-height:150px}}
 
+
+.ai-disclaimer-overlay{
+  position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;
+  padding:22px;background:rgba(4,7,10,.84);backdrop-filter:blur(10px)
+}
+.ai-disclaimer-box{
+  width:min(620px,100%);background:linear-gradient(180deg,rgba(255,255,255,.035),transparent 55%),var(--panel);
+  border:1px solid #4b5d70;border-radius:22px;box-shadow:0 28px 80px rgba(0,0,0,.55);padding:28px
+}
+.ai-disclaimer-box h2{margin:7px 0 10px;font-size:28px}
+.ai-disclaimer-box p{color:#c8d2dc;margin:0;line-height:1.6}
+.ai-disclaimer-box .important{color:var(--warn);font-weight:800}
+.ai-disclaimer-box button{margin-top:20px;width:100%;padding:12px 16px;font-weight:800;border-color:#5db8e0;background:#183044}
+
 </style>
 </head>
 <body>
+
+<div id="aiDisclaimer" class="ai-disclaimer-overlay" role="dialog" aria-modal="true" aria-labelledby="aiDisclaimerTitle">
+  <div class="ai-disclaimer-box">
+    <div class="kicker">Important Notice</div>
+    <h2 id="aiDisclaimerTitle">This site uses AI-assisted information.</h2>
+    <p>Some card recommendations, tags, synergy scores, deckbuilding suggestions, and explanations on this site may be generated or assisted by AI. <span class="important">AI can make mistakes, miss card interactions, or use outdated information.</span> Always verify card text, Commander legality, official rulings, and prices with trusted Magic: The Gathering sources before relying on them.</p>
+    <button id="aiDisclaimerAccept">I Understand — Enter Site</button>
+  </div>
+</div>
+
 
 <section id="deckHub" class="deck-hub">
   <div class="deck-hub-inner">
@@ -872,6 +896,13 @@ function showMembership(card){
     chips.appendChild(ch);
   });
 }
+
+
+const aiDisclaimerAccept=document.getElementById("aiDisclaimerAccept");
+if(aiDisclaimerAccept) aiDisclaimerAccept.onclick=()=>{
+  const modal=document.getElementById("aiDisclaimer");
+  if(modal) modal.style.display="none";
+};
 
 document.getElementById("search").addEventListener("input",()=>renderPanel());
 document.getElementById("newCardsBtn").onclick=()=>{specialView="new";drawMap();renderPanel();updateTopButtons();};
