@@ -122,21 +122,108 @@ transition:.18s transform,.18s border-color,.18s box-shadow;padding:16px;color:v
 .checker-note{color:var(--muted);font-size:12px;margin-top:8px}
 @media(max-width:720px){.card-checker-grid{grid-template-columns:1fr}}
 
+
+/* Main app menu */
+.main-menu-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:30px}
+.main-menu-btn{min-height:190px;text-align:left;padding:24px;border-radius:22px;background:
+radial-gradient(circle at 90% 10%,rgba(119,213,255,.10),transparent 30%),
+linear-gradient(145deg,#171f28,#0f141a);box-shadow:var(--shadow);transition:.18s transform,.18s border-color}
+.main-menu-btn:hover{transform:translateY(-3px);border-color:var(--accent)}
+.main-menu-btn .menu-num{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:900}
+.main-menu-btn strong{display:block;font-size:22px;margin-top:9px}
+.main-menu-btn span{display:block;color:var(--muted);margin-top:8px;line-height:1.45}
+.app-page{min-height:100vh;padding:86px 22px 42px;display:none}
+.app-page-inner{max-width:1050px;margin:auto}
+.app-page-card{padding:30px}
+.app-page-card h1{margin:6px 0 8px}
+.page-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.library-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:22px}
+.library-item{padding:22px;text-align:left;border-radius:16px}
+.library-item strong{display:block;font-size:18px}
+.library-item span{display:block;color:var(--muted);margin-top:6px}
+@media(max-width:720px){.main-menu-grid,.library-grid{grid-template-columns:1fr}.main-menu-btn{min-height:150px}}
+
 </style>
 </head>
 <body>
 
 <section id="deckHub" class="deck-hub">
   <div class="deck-hub-inner">
-    <div class="deck-hub-kicker">Deck Library</div>
-    <h1>Which deck do you want to explore?</h1>
-    <p class="deck-hub-sub">Pick a deck universe. Each one can have its own cards, bubbles, notes, builds, and update feed.</p>
-    <div class="deck-choice-grid">
-      <button class="deck-choice omnath" onclick="openDeck('omnath')"><strong>Omnath</strong><span>Current atlas</span></button>
-      <button class="deck-choice" onclick="openDeck('test2')"><strong>Test 2</strong><span>Friend's deck</span></button>
-      <button class="deck-choice empty" onclick="openDeck('slot3')"><strong>Deck 3</strong><span>Open slot</span></button>
-      <button class="deck-choice empty" onclick="openDeck('slot4')"><strong>Deck 4</strong><span>Open slot</span></button>
-      <button class="deck-choice empty" onclick="openDeck('slot5')"><strong>Deck 5</strong><span>Open slot</span></button>
+    <div class="deck-hub-kicker">Commander Workshop</div>
+    <h1>What do you want to build?</h1>
+    <p class="deck-hub-sub">Choose a path. The recommendation systems come later; this is the new site structure.</p>
+    <div class="main-menu-grid">
+      <button class="main-menu-btn" onclick="openMainPage('buildOwnPage')">
+        <span class="menu-num">01 • Guided discovery</span>
+        <strong>Build Your Own</strong>
+        <span>Choose a commander, get strategy tags, and eventually receive card recommendations built around the ideas you pick.</span>
+      </button>
+      <button class="main-menu-btn" onclick="openMainPage('existingBuildPage')">
+        <span class="menu-num">02 • Community inspiration</span>
+        <strong>Build From Existing Decks</strong>
+        <span>Start from decks other players have already made, compare patterns, and eventually get suggestions based on those builds.</span>
+      </button>
+      <button class="main-menu-btn" onclick="openMainPage('libraryPage')">
+        <span class="menu-num">03 • Your collection</span>
+        <strong>My Deck Library</strong>
+        <span>Open all of your saved deck projects, including Omnath and the Liesa tax deck.</span>
+      </button>
+      <button class="main-menu-btn" onclick="openMainPage('playerBuilderPage')">
+        <span class="menu-num">04 • Manual mode</span>
+        <strong>Full Player Builder</strong>
+        <span>No recommendations, no guidance—just a clean deckbuilding workspace where the player controls everything.</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<section id="buildOwnPage" class="app-page">
+  <button class="deck-page-back" onclick="showDeckHub()">← Menu</button>
+  <div class="app-page-inner">
+    <div class="card app-page-card">
+      <span class="slot-badge">Guided Builder</span>
+      <h1>Build Your Own</h1>
+      <p class="note">This page will become the smart commander builder: choose any commander, discover strategy tags, then get recommended cards based on the directions you choose.</p>
+      <div class="page-actions"><button disabled>Commander Search — coming next</button><button disabled>Strategy Tags — coming next</button></div>
+    </div>
+  </div>
+</section>
+
+<section id="existingBuildPage" class="app-page">
+  <button class="deck-page-back" onclick="showDeckHub()">← Menu</button>
+  <div class="app-page-inner">
+    <div class="card app-page-card">
+      <span class="slot-badge">Deck Inspiration</span>
+      <h1>Build From Existing Decks</h1>
+      <p class="note">This page will use already-built Commander decks as inspiration, find common packages and themes, and suggest cards based on proven deck structures.</p>
+      <div class="page-actions"><button disabled>Browse Decks — coming next</button><button disabled>Compare Builds — coming next</button></div>
+    </div>
+  </div>
+</section>
+
+<section id="libraryPage" class="app-page">
+  <button class="deck-page-back" onclick="showDeckHub()">← Menu</button>
+  <div class="app-page-inner">
+    <div class="card app-page-card">
+      <span class="slot-badge">Saved Projects</span>
+      <h1>My Deck Library</h1>
+      <p class="note">Your existing deck projects live here. More decks can be added without cluttering the main menu.</p>
+      <div class="library-grid">
+        <button class="library-item" onclick="openDeck('omnath')"><strong>Omnath Multiverse</strong><span>One commander, many colorless deck directions.</span></button>
+        <button class="library-item" onclick="openDeck('test2')"><strong>Liesa — Everything Is Taxed</strong><span>Life payments, taxes, lifegain, drain, and combo candidate pool.</span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="playerBuilderPage" class="app-page">
+  <button class="deck-page-back" onclick="showDeckHub()">← Menu</button>
+  <div class="app-page-inner">
+    <div class="card app-page-card">
+      <span class="slot-badge">Manual Builder</span>
+      <h1>Full Player Builder</h1>
+      <p class="note">A completely manual Commander deckbuilder. No recommendations or strategy coaching—just search, add, remove, organize, and build exactly what the player wants.</p>
+      <div class="page-actions"><button disabled>New Blank Deck — coming next</button></div>
     </div>
   </div>
 </section>
@@ -404,20 +491,29 @@ transition:.18s transform,.18s border-color,.18s box-shadow;padding:16px;color:v
 
 </div>
 <script>
+function hideTopPages(){
+  ["deckHub","buildOwnPage","existingBuildPage","libraryPage","playerBuilderPage","omnathApp","test2Page","emptyDeckPage"].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.style.display="none";
+  });
+}
 function showDeckHub(){
-  document.getElementById('deckHub').style.display='flex';
-  document.getElementById('omnathApp').style.display='none';
-  document.getElementById('test2Page').style.display='none';
-  document.getElementById('emptyDeckPage').style.display='none';
+  hideTopPages();
+  document.getElementById("deckHub").style.display="flex";
+  window.scrollTo(0,0);
+}
+function openMainPage(id){
+  hideTopPages();
+  const el=document.getElementById(id);
+  if(el) el.style.display="block";
   window.scrollTo(0,0);
 }
 function openDeck(which){
-  document.getElementById('deckHub').style.display='none';
-  document.getElementById('omnathApp').style.display=which==='omnath'?'block':'none';
-  document.getElementById('test2Page').style.display=which==='test2'?'block':'none';
-  const empty=!['omnath','test2'].includes(which);
-  document.getElementById('emptyDeckPage').style.display=empty?'block':'none';
-  if(empty){document.getElementById('emptyDeckTitle').textContent=which==='slot3'?'Deck 3':which==='slot4'?'Deck 4':'Deck 5';}
+  hideTopPages();
+  document.getElementById("omnathApp").style.display=which==="omnath"?"block":"none";
+  document.getElementById("test2Page").style.display=which==="test2"?"block":"none";
+  const empty=!["omnath","test2"].includes(which);
+  document.getElementById("emptyDeckPage").style.display=empty?"block":"none";
+  if(empty){document.getElementById("emptyDeckTitle").textContent=which==="slot3"?"Deck 3":which==="slot4"?"Deck 4":"Deck 5";}
   window.scrollTo(0,0);
 }
 
@@ -556,14 +652,17 @@ function renderFusionDetail(){
     line.textContent=n+" "+card+(card==="Omnath, Locus of the Void"?" — Commander":"");cardsEl.appendChild(line);
   }
   const chips=document.getElementById("chips");chips.innerHTML="";
-  [f.a,f.b].forEach(n=>{const ch=document.createElement("span");ch.className="chip";ch.textContent=n;ch.style.cursor="pointer";ch.onclick=()=>{specialView=null;selected=n;
+  [f.a,f.b].forEach(n=>{
+    const ch=document.createElement("span");ch.className="chip";ch.textContent=n;ch.style.cursor="pointer";
+    ch.onclick=()=>{specialView=null;selected=n;drawMap();renderPanel();updateTopButtons();};
+    chips.appendChild(ch);
+  });
+}
+
 function analyzeLiesaCard(card){
   const text=((card.name||"")+" "+(card.oracle_text||card.text||"")).toLowerCase();
-  const cats=[];
-  let score=0;
-  const hit=(label,pts,patterns)=>{
-    if(patterns.some(p=>text.includes(p))){cats.push(label);score+=pts;}
-  };
+  const cats=[]; let score=0;
+  const hit=(label,pts,patterns)=>{if(patterns.some(p=>text.includes(p))){cats.push(label);score+=pts;}};
   hit("Life as a resource",18,["pay life","pay 1 life","pay 2 life","lose life"]);
   hit("Lifegain",16,["you gain life","gain that much life","lifelink"]);
   hit("Lifegain → drain",22,["whenever you gain life","opponent loses that much life","each opponent loses"]);
@@ -582,38 +681,33 @@ function analyzeLiesaCard(card){
   if(/create (a|two|three|x) treasure/.test(text)) score+=6;
   if(/enters the battlefield tapped|enter tapped/.test(text)){cats.push("Tempo tax");score+=10;}
   const ci=(card.color_identity||[]).join("");
-  let legal=true, legalityNote="";
-  if(ci && /[URG]/.test(ci)){legal=false;score-=40;legalityNote="Outside Liesa's white/black color identity.";}
+  let legal=true,legalityNote="";
+  if(ci&&/[URG]/.test(ci)){legal=false;score-=40;legalityNote="Outside Liesa's white/black color identity.";}
   score=Math.max(0,Math.min(100,score));
   let verdict=score>=75?"Excellent fit":score>=55?"Strong candidate":score>=35?"Useful / situational":score>=20?"Niche fit":"Weak fit for this plan";
   if(!legal) verdict="Not legal in Liesa";
   return {score,cats:[...new Set(cats)],verdict,legal,legalityNote};
 }
 function renderLiesaCheck(card){
-  const r=analyzeLiesaCard(card);
-  const box=document.getElementById("liesaCheckerResult");
+  const r=analyzeLiesaCard(card),box=document.getElementById("liesaCheckerResult");
   const safe=s=>String(s||"").replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
   box.style.display="block";
-  box.innerHTML='<div class="checker-score">'+r.score+'/100</div>'+
-    '<strong>'+safe(r.verdict)+'</strong>'+
+  box.innerHTML='<div class="checker-score">'+r.score+'/100</div><strong>'+safe(r.verdict)+'</strong>'+
     (card.name?'<div class="small" style="margin-top:4px">'+safe(card.name)+'</div>':'')+
     '<div class="checker-tags">'+(r.cats.length?r.cats.map(x=>'<span class="chip">'+safe(x)+'</span>').join(""):'<span class="chip">No major Liesa tags found</span>')+'</div>'+
     (r.legalityNote?'<div class="checker-note">'+safe(r.legalityNote)+'</div>':'');
 }
 const liesaImg=document.getElementById("liesaCardImage");
 if(liesaImg) liesaImg.addEventListener("change",e=>{
-  const f=e.target.files&&e.target.files[0], img=document.getElementById("liesaCardPreview");
+  const f=e.target.files&&e.target.files[0],img=document.getElementById("liesaCardPreview");
   if(!f){img.style.display="none";return;}
   img.src=URL.createObjectURL(f);img.style.display="block";
 });
 const liesaAnalyze=document.getElementById("liesaAnalyzeBtn");
-if(liesaAnalyze) liesaAnalyze.onclick=()=>{
-  renderLiesaCheck({name:document.getElementById("liesaCardName").value.trim(),text:document.getElementById("liesaCardText").value});
-};
+if(liesaAnalyze) liesaAnalyze.onclick=()=>renderLiesaCheck({name:document.getElementById("liesaCardName").value.trim(),text:document.getElementById("liesaCardText").value});
 const liesaLookup=document.getElementById("liesaLookupBtn");
 if(liesaLookup) liesaLookup.onclick=async()=>{
-  const name=document.getElementById("liesaCardName").value.trim();
-  const box=document.getElementById("liesaCheckerResult");
+  const name=document.getElementById("liesaCardName").value.trim(),box=document.getElementById("liesaCheckerResult");
   if(!name){box.style.display="block";box.textContent="Enter a card name first.";return;}
   box.style.display="block";box.textContent="Looking up card…";
   try{
@@ -623,13 +717,8 @@ if(liesaLookup) liesaLookup.onclick=async()=>{
     document.getElementById("liesaCardName").value=card.name||name;
     document.getElementById("liesaCardText").value=card.oracle_text||"";
     renderLiesaCheck(card);
-  }catch(e){
-    box.textContent="Couldn't fetch that card. Paste its rules text and use Analyze text.";
-  }
+  }catch(e){box.textContent="Couldn't fetch that card. Paste its rules text and use Analyze text.";}
 };
-
-drawMap();renderPanel();updateTopButtons();};chips.appendChild(ch);});
-}
 
 const names = Object.keys(DATA.decks);
 let selected = "Core";
