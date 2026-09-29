@@ -173,6 +173,17 @@ linear-gradient(145deg,#171f28,#0f141a);box-shadow:var(--shadow);transition:.18s
         <strong>Full Player Builder</strong>
         <span>No recommendations, no guidance—just a clean deckbuilding workspace where the player controls everything.</span>
       </button>
+    
+      <button class="main-menu-btn" onclick="openMainPage('allCardsPage')">
+        <span class="menu-num">05 • Card database</span>
+        <strong>Every Card Stored</strong>
+        <span>Browse every Magic card that has been imported, tagged, and analyzed by the site.</span>
+      </button>
+      <button class="main-menu-btn" onclick="openMainPage('proxyPage')">
+        <span class="menu-num">06 • Custom / proxy area</span>
+        <strong>Proxy Section</strong>
+        <span>A separate space for custom cards, proxies, playtest cards, and unofficial designs.</span>
+      </button>
     </div>
   </div>
 </section>
@@ -224,6 +235,30 @@ linear-gradient(145deg,#171f28,#0f141a);box-shadow:var(--shadow);transition:.18s
       <h1>Full Player Builder</h1>
       <p class="note">A completely manual Commander deckbuilder. No recommendations or strategy coaching—just search, add, remove, organize, and build exactly what the player wants.</p>
       <div class="page-actions"><button disabled>New Blank Deck — coming next</button></div>
+    </div>
+  </div>
+</section>
+
+<section id="allCardsPage" class="app-page">
+  <button class="deck-page-back" onclick="showDeckHub()">← Menu</button>
+  <div class="app-page-inner">
+    <div class="card app-page-card">
+      <span class="slot-badge">Card Database</span>
+      <h1>Every Card Stored</h1>
+      <p class="note">This will become the master card browser for every imported Magic card. Each card can eventually show tags, mechanics, color identity, deck roles, synergy scores, and which commanders or archetypes it fits.</p>
+      <div class="page-actions"><button disabled>Browse Cards — coming next</button><button disabled>Filter by Tags — coming next</button></div>
+    </div>
+  </div>
+</section>
+
+<section id="proxyPage" class="app-page">
+  <button class="deck-page-back" onclick="showDeckHub()">← Menu</button>
+  <div class="app-page-inner">
+    <div class="card app-page-card">
+      <span class="slot-badge">Custom / Proxy Cards</span>
+      <h1>Proxy Section</h1>
+      <p class="note">A separate library for proxies, custom cards, fan designs, and playtest cards so unofficial material never gets mixed into the normal Magic database.</p>
+      <div class="page-actions"><button disabled>Upload Proxy — coming next</button><button disabled>Browse Proxies — coming next</button></div>
     </div>
   </div>
 </section>
@@ -492,7 +527,7 @@ linear-gradient(145deg,#171f28,#0f141a);box-shadow:var(--shadow);transition:.18s
 </div>
 <script>
 function hideTopPages(){
-  ["deckHub","buildOwnPage","existingBuildPage","libraryPage","playerBuilderPage","omnathApp","test2Page","emptyDeckPage"].forEach(id=>{
+  ["deckHub","buildOwnPage","existingBuildPage","libraryPage","playerBuilderPage","allCardsPage","proxyPage","omnathApp","test2Page","emptyDeckPage"].forEach(id=>{
     const el=document.getElementById(id); if(el) el.style.display="none";
   });
 }
