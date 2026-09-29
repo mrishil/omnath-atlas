@@ -110,6 +110,18 @@ transition:.18s transform,.18s border-color,.18s box-shadow;padding:16px;color:v
 .slot-badge{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:5px 9px;color:var(--accent);font-size:11px}
 @media(max-width:720px){.deck-choice{width:125px;height:125px}.deck-choice-grid{gap:14px}}
 
+
+.card-checker{margin-top:26px;padding:18px;border:1px solid var(--line);border-radius:16px;background:#0e1217}
+.card-checker-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.card-checker textarea{width:100%;min-height:150px;resize:vertical;background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:10px 12px;font:inherit}
+.card-checker input[type="file"]{min-width:0;width:100%}
+.checker-preview{width:100%;max-width:260px;border-radius:14px;border:1px solid var(--line);display:none;margin-top:10px}
+.checker-result{margin-top:14px;padding:14px;border:1px solid var(--line);border-radius:14px;background:#111820;display:none}
+.checker-score{font-size:30px;font-weight:900;letter-spacing:-.04em}
+.checker-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.checker-note{color:var(--muted);font-size:12px;margin-top:8px}
+@media(max-width:720px){.card-checker-grid{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -135,6 +147,32 @@ transition:.18s transform,.18s border-color,.18s box-shadow;padding:16px;color:v
     <span class="slot-badge">Deck 2 • Candidate Pool</span>
     <h1>Liesa — Everything Is Taxed</h1>
     <p class="note"><strong>Commander:</strong> Liesa, Shroud of Dusk. Current build direction: make ordinary game actions cost mana, life, cards, tempo, or permanents; use our own life as a resource; then recycle lifegain into damage and combo finishes.</p>
+
+    
+    <div class="card-checker">
+      <div class="kicker">Card Uploader + Liesa Fit Checker</div>
+      <h2 style="margin:4px 0 0">Should this go in Test 2?</h2>
+      <p class="note">Upload an image for reference, or enter a card name. The checker can fetch real card data by name and score how well it supports the tax/lifegain plan. Custom cards can be checked by pasting their rules text.</p>
+      <div class="card-checker-grid">
+        <div>
+          <label class="small">Card image</label>
+          <input id="liesaCardImage" type="file" accept="image/*">
+          <img id="liesaCardPreview" class="checker-preview" alt="Uploaded card preview">
+        </div>
+        <div>
+          <label class="small">Card name</label>
+          <input id="liesaCardName" style="width:100%;margin-top:5px" placeholder="Example: Smothering Tithe">
+          <label class="small" style="display:block;margin-top:10px">Rules text / custom card text</label>
+          <textarea id="liesaCardText" placeholder="Paste Oracle text here, or leave blank and use Check by name."></textarea>
+        </div>
+      </div>
+      <div class="deck-toolbar">
+        <button id="liesaLookupBtn">Check by name</button>
+        <button id="liesaAnalyzeBtn">Analyze text</button>
+      </div>
+      <div id="liesaCheckerResult" class="checker-result"></div>
+      <div class="checker-note">This is a synergy heuristic, not an automatic deckbuilding verdict. It looks for the jobs this Liesa deck actually wants and flags color-identity issues when official card data is available.</div>
+    </div>
 
     <div class="statrow" style="margin-top:18px">
       <span class="pill good">Commander locked</span>
@@ -518,7 +556,79 @@ function renderFusionDetail(){
     line.textContent=n+" "+card+(card==="Omnath, Locus of the Void"?" — Commander":"");cardsEl.appendChild(line);
   }
   const chips=document.getElementById("chips");chips.innerHTML="";
-  [f.a,f.b].forEach(n=>{const ch=document.createElement("span");ch.className="chip";ch.textContent=n;ch.style.cursor="pointer";ch.onclick=()=>{specialView=null;selected=n;drawMap();renderPanel();updateTopButtons();};chips.appendChild(ch);});
+  [f.a,f.b].forEach(n=>{const ch=document.createElement("span");ch.className="chip";ch.textContent=n;ch.style.cursor="pointer";ch.onclick=()=>{specialView=null;selected=n;
+function analyzeLiesaCard(card){
+  const text=((card.name||"")+" "+(card.oracle_text||card.text||"")).toLowerCase();
+  const cats=[];
+  let score=0;
+  const hit=(label,pts,patterns)=>{
+    if(patterns.some(p=>text.includes(p))){cats.push(label);score+=pts;}
+  };
+  hit("Life as a resource",18,["pay life","pay 1 life","pay 2 life","lose life"]);
+  hit("Lifegain",16,["you gain life","gain that much life","lifelink"]);
+  hit("Lifegain → drain",22,["whenever you gain life","opponent loses that much life","each opponent loses"]);
+  hit("Spell tax",20,["spells your opponents cast cost","spells cost","noncreature spells cost","unless that player pays"]);
+  hit("Attack tax",18,["can't attack you unless","creatures can't attack you unless","attacks you or a planeswalker"]);
+  hit("Draw tax",18,["whenever an opponent draws","whenever a player draws","draws a card"]);
+  hit("Search tax",18,["search a library","search their library","searches their library"]);
+  hit("Land tax",16,["land enters","whenever a land enters"]);
+  hit("Creature-entry tax",16,["creature enters","whenever another creature enters"]);
+  hit("Ability tax",18,["activated abilities cost","can't activate abilities","activated abilities of"]);
+  hit("Pay-or-suffer",18,["unless they pay","unless that player pays","or loses","or sacrifice","or discards"]);
+  hit("Opponent punishment",14,["whenever an opponent","each opponent"]);
+  hit("Recovery",14,["life you've lost","life lost this turn","gain life equal"]);
+  hit("Combo potential",12,["whenever you gain life","whenever an opponent loses life","whenever a player loses life"]);
+  if(/draw (a|two|three|x) card/.test(text)) score+=6;
+  if(/create (a|two|three|x) treasure/.test(text)) score+=6;
+  if(/enters the battlefield tapped|enter tapped/.test(text)){cats.push("Tempo tax");score+=10;}
+  const ci=(card.color_identity||[]).join("");
+  let legal=true, legalityNote="";
+  if(ci && /[URG]/.test(ci)){legal=false;score-=40;legalityNote="Outside Liesa's white/black color identity.";}
+  score=Math.max(0,Math.min(100,score));
+  let verdict=score>=75?"Excellent fit":score>=55?"Strong candidate":score>=35?"Useful / situational":score>=20?"Niche fit":"Weak fit for this plan";
+  if(!legal) verdict="Not legal in Liesa";
+  return {score,cats:[...new Set(cats)],verdict,legal,legalityNote};
+}
+function renderLiesaCheck(card){
+  const r=analyzeLiesaCard(card);
+  const box=document.getElementById("liesaCheckerResult");
+  const safe=s=>String(s||"").replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+  box.style.display="block";
+  box.innerHTML='<div class="checker-score">'+r.score+'/100</div>'+
+    '<strong>'+safe(r.verdict)+'</strong>'+
+    (card.name?'<div class="small" style="margin-top:4px">'+safe(card.name)+'</div>':'')+
+    '<div class="checker-tags">'+(r.cats.length?r.cats.map(x=>'<span class="chip">'+safe(x)+'</span>').join(""):'<span class="chip">No major Liesa tags found</span>')+'</div>'+
+    (r.legalityNote?'<div class="checker-note">'+safe(r.legalityNote)+'</div>':'');
+}
+const liesaImg=document.getElementById("liesaCardImage");
+if(liesaImg) liesaImg.addEventListener("change",e=>{
+  const f=e.target.files&&e.target.files[0], img=document.getElementById("liesaCardPreview");
+  if(!f){img.style.display="none";return;}
+  img.src=URL.createObjectURL(f);img.style.display="block";
+});
+const liesaAnalyze=document.getElementById("liesaAnalyzeBtn");
+if(liesaAnalyze) liesaAnalyze.onclick=()=>{
+  renderLiesaCheck({name:document.getElementById("liesaCardName").value.trim(),text:document.getElementById("liesaCardText").value});
+};
+const liesaLookup=document.getElementById("liesaLookupBtn");
+if(liesaLookup) liesaLookup.onclick=async()=>{
+  const name=document.getElementById("liesaCardName").value.trim();
+  const box=document.getElementById("liesaCheckerResult");
+  if(!name){box.style.display="block";box.textContent="Enter a card name first.";return;}
+  box.style.display="block";box.textContent="Looking up card…";
+  try{
+    const res=await fetch("https://api.scryfall.com/cards/named?fuzzy="+encodeURIComponent(name));
+    if(!res.ok) throw new Error("Card not found");
+    const card=await res.json();
+    document.getElementById("liesaCardName").value=card.name||name;
+    document.getElementById("liesaCardText").value=card.oracle_text||"";
+    renderLiesaCheck(card);
+  }catch(e){
+    box.textContent="Couldn't fetch that card. Paste its rules text and use Analyze text.";
+  }
+};
+
+drawMap();renderPanel();updateTopButtons();};chips.appendChild(ch);});
 }
 
 const names = Object.keys(DATA.decks);
