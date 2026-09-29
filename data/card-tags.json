@@ -1,0 +1,897 @@
+{
+  "schema_version": 1,
+  "updated": "2026-09-29",
+  "cards": {
+    "Sol Ring": {
+      "name": "Sol Ring",
+      "tags": [
+        "ramp",
+        "artifact",
+        "mana-rock",
+        "colorless"
+      ],
+      "roles": [
+        "fast-mana",
+        "acceleration"
+      ]
+    },
+    "Arcane Signet": {
+      "name": "Arcane Signet",
+      "tags": [
+        "ramp",
+        "artifact",
+        "mana-rock",
+        "color-fixing"
+      ],
+      "roles": [
+        "acceleration",
+        "fixing"
+      ]
+    },
+    "Fellwar Stone": {
+      "name": "Fellwar Stone",
+      "tags": [
+        "ramp",
+        "artifact",
+        "mana-rock",
+        "color-fixing"
+      ],
+      "roles": [
+        "acceleration",
+        "fixing"
+      ]
+    },
+    "Thought Vessel": {
+      "name": "Thought Vessel",
+      "tags": [
+        "ramp",
+        "artifact",
+        "mana-rock",
+        "hand-size"
+      ],
+      "roles": [
+        "acceleration",
+        "utility"
+      ]
+    },
+    "Mind Stone": {
+      "name": "Mind Stone",
+      "tags": [
+        "ramp",
+        "artifact",
+        "mana-rock",
+        "card-draw"
+      ],
+      "roles": [
+        "acceleration",
+        "card-advantage"
+      ]
+    },
+    "Smothering Tithe": {
+      "name": "Smothering Tithe",
+      "tags": [
+        "ramp",
+        "treasure",
+        "tax",
+        "opponent-draw"
+      ],
+      "roles": [
+        "mana-engine",
+        "resource-tax"
+      ]
+    },
+    "Rhystic Study": {
+      "name": "Rhystic Study",
+      "tags": [
+        "card-draw",
+        "tax",
+        "opponent-spells",
+        "enchantment"
+      ],
+      "roles": [
+        "card-advantage",
+        "soft-tax"
+      ]
+    },
+    "Mystic Remora": {
+      "name": "Mystic Remora",
+      "tags": [
+        "card-draw",
+        "tax",
+        "noncreature-spells",
+        "enchantment"
+      ],
+      "roles": [
+        "card-advantage",
+        "soft-tax"
+      ]
+    },
+    "Esper Sentinel": {
+      "name": "Esper Sentinel",
+      "tags": [
+        "card-draw",
+        "tax",
+        "artifact-synergy",
+        "creature"
+      ],
+      "roles": [
+        "card-advantage",
+        "soft-tax"
+      ]
+    },
+    "The One Ring": {
+      "name": "The One Ring",
+      "tags": [
+        "card-draw",
+        "artifact",
+        "protection",
+        "counters"
+      ],
+      "roles": [
+        "card-advantage",
+        "defense"
+      ]
+    },
+    "Skullclamp": {
+      "name": "Skullclamp",
+      "tags": [
+        "card-draw",
+        "equipment",
+        "tokens",
+        "sacrifice"
+      ],
+      "roles": [
+        "card-advantage",
+        "death-payoff"
+      ]
+    },
+    "Necropotence": {
+      "name": "Necropotence",
+      "tags": [
+        "card-draw",
+        "life-as-resource",
+        "enchantment"
+      ],
+      "roles": [
+        "card-advantage",
+        "life-payment"
+      ]
+    },
+    "Bolas's Citadel": {
+      "name": "Bolas's Citadel",
+      "tags": [
+        "topdeck",
+        "life-as-resource",
+        "artifact",
+        "sacrifice"
+      ],
+      "roles": [
+        "card-advantage",
+        "combo-engine",
+        "finisher"
+      ]
+    },
+    "Soul Warden": {
+      "name": "Soul Warden",
+      "tags": [
+        "lifegain",
+        "creature-entry"
+      ],
+      "roles": [
+        "lifegain-engine"
+      ]
+    },
+    "Soul's Attendant": {
+      "name": "Soul's Attendant",
+      "tags": [
+        "lifegain",
+        "creature-entry"
+      ],
+      "roles": [
+        "lifegain-engine"
+      ]
+    },
+    "Aetherflux Reservoir": {
+      "name": "Aetherflux Reservoir",
+      "tags": [
+        "lifegain",
+        "spellslinger",
+        "artifact"
+      ],
+      "roles": [
+        "lifegain-payoff",
+        "finisher"
+      ]
+    },
+    "Sanguine Bond": {
+      "name": "Sanguine Bond",
+      "tags": [
+        "lifegain",
+        "life-loss",
+        "enchantment"
+      ],
+      "roles": [
+        "lifegain-payoff",
+        "combo-piece"
+      ]
+    },
+    "Exquisite Blood": {
+      "name": "Exquisite Blood",
+      "tags": [
+        "lifegain",
+        "life-loss",
+        "enchantment"
+      ],
+      "roles": [
+        "lifegain-engine",
+        "combo-piece"
+      ]
+    },
+    "Ghostly Prison": {
+      "name": "Ghostly Prison",
+      "tags": [
+        "tax",
+        "combat",
+        "enchantment"
+      ],
+      "roles": [
+        "attack-tax",
+        "defense"
+      ]
+    },
+    "Propaganda": {
+      "name": "Propaganda",
+      "tags": [
+        "tax",
+        "combat",
+        "enchantment"
+      ],
+      "roles": [
+        "attack-tax",
+        "defense"
+      ]
+    },
+    "Grand Abolisher": {
+      "name": "Grand Abolisher",
+      "tags": [
+        "protection",
+        "interaction-lock",
+        "creature"
+      ],
+      "roles": [
+        "combo-protection",
+        "defense"
+      ]
+    },
+    "Teferi's Protection": {
+      "name": "Teferi's Protection",
+      "tags": [
+        "protection",
+        "phasing",
+        "instant"
+      ],
+      "roles": [
+        "board-protection"
+      ]
+    },
+    "Heroic Intervention": {
+      "name": "Heroic Intervention",
+      "tags": [
+        "protection",
+        "hexproof",
+        "indestructible",
+        "instant"
+      ],
+      "roles": [
+        "board-protection"
+      ]
+    },
+    "Eternal Witness": {
+      "name": "Eternal Witness",
+      "tags": [
+        "recursion",
+        "graveyard",
+        "creature"
+      ],
+      "roles": [
+        "regrowth",
+        "value"
+      ]
+    },
+    "Sun Titan": {
+      "name": "Sun Titan",
+      "tags": [
+        "recursion",
+        "permanents",
+        "attack-trigger"
+      ],
+      "roles": [
+        "recursion-engine",
+        "value"
+      ]
+    },
+    "Academy Manufactor": {
+      "name": "Academy Manufactor",
+      "tags": [
+        "treasure",
+        "clue",
+        "food",
+        "artifact-tokens"
+      ],
+      "roles": [
+        "token-engine",
+        "value-engine"
+      ]
+    },
+    "Anointed Procession": {
+      "name": "Anointed Procession",
+      "tags": [
+        "tokens",
+        "token-doubler",
+        "enchantment"
+      ],
+      "roles": [
+        "token-engine",
+        "multiplier"
+      ]
+    },
+    "Parallel Lives": {
+      "name": "Parallel Lives",
+      "tags": [
+        "tokens",
+        "token-doubler",
+        "enchantment"
+      ],
+      "roles": [
+        "token-engine",
+        "multiplier"
+      ]
+    },
+    "Doubling Season": {
+      "name": "Doubling Season",
+      "tags": [
+        "tokens",
+        "counters",
+        "token-doubler",
+        "counter-doubler"
+      ],
+      "roles": [
+        "multiplier",
+        "combo-enabler"
+      ]
+    },
+    "Mondrak, Glory Dominus": {
+      "name": "Mondrak, Glory Dominus",
+      "tags": [
+        "tokens",
+        "token-doubler",
+        "indestructible"
+      ],
+      "roles": [
+        "token-engine",
+        "multiplier"
+      ]
+    },
+    "Panharmonicon": {
+      "name": "Panharmonicon",
+      "tags": [
+        "etb",
+        "artifact",
+        "trigger-doubler"
+      ],
+      "roles": [
+        "value-engine",
+        "trigger-multiplier"
+      ]
+    },
+    "Strionic Resonator": {
+      "name": "Strionic Resonator",
+      "tags": [
+        "trigger-copy",
+        "artifact"
+      ],
+      "roles": [
+        "trigger-multiplier",
+        "combo-piece"
+      ]
+    },
+    "Lithoform Engine": {
+      "name": "Lithoform Engine",
+      "tags": [
+        "copy",
+        "spells",
+        "abilities",
+        "artifact"
+      ],
+      "roles": [
+        "copy-engine",
+        "value-engine"
+      ]
+    },
+    "Mirrorworks": {
+      "name": "Mirrorworks",
+      "tags": [
+        "artifact-copy",
+        "tokens",
+        "artifact"
+      ],
+      "roles": [
+        "copy-engine",
+        "artifact-engine"
+      ]
+    },
+    "Sculpting Steel": {
+      "name": "Sculpting Steel",
+      "tags": [
+        "artifact-copy",
+        "artifact"
+      ],
+      "roles": [
+        "copy",
+        "flexible-value"
+      ]
+    },
+    "Mycosynth Lattice": {
+      "name": "Mycosynth Lattice",
+      "tags": [
+        "artifacts",
+        "color-fixing",
+        "colorless"
+      ],
+      "roles": [
+        "type-conversion",
+        "combo-enabler"
+      ]
+    },
+    "Clock of Omens": {
+      "name": "Clock of Omens",
+      "tags": [
+        "artifacts",
+        "tap",
+        "untap"
+      ],
+      "roles": [
+        "untap-engine",
+        "combo-piece"
+      ]
+    },
+    "Unwinding Clock": {
+      "name": "Unwinding Clock",
+      "tags": [
+        "artifacts",
+        "untap"
+      ],
+      "roles": [
+        "untap-engine",
+        "value-engine"
+      ]
+    },
+    "Voltaic Key": {
+      "name": "Voltaic Key",
+      "tags": [
+        "artifact",
+        "untap"
+      ],
+      "roles": [
+        "untap-engine",
+        "combo-piece"
+      ]
+    },
+    "Manifold Key": {
+      "name": "Manifold Key",
+      "tags": [
+        "artifact",
+        "untap",
+        "evasion"
+      ],
+      "roles": [
+        "untap-engine",
+        "utility"
+      ]
+    },
+    "Darksteel Reactor": {
+      "name": "Darksteel Reactor",
+      "tags": [
+        "charge-counters",
+        "artifact",
+        "alternate-win"
+      ],
+      "roles": [
+        "alternate-wincon",
+        "counter-payoff"
+      ]
+    },
+    "Karn's Bastion": {
+      "name": "Karn's Bastion",
+      "tags": [
+        "land",
+        "proliferate",
+        "counters"
+      ],
+      "roles": [
+        "utility-land",
+        "counter-support"
+      ]
+    },
+    "Evolution Sage": {
+      "name": "Evolution Sage",
+      "tags": [
+        "landfall",
+        "proliferate",
+        "counters"
+      ],
+      "roles": [
+        "counter-engine",
+        "landfall-payoff"
+      ]
+    },
+    "Scute Swarm": {
+      "name": "Scute Swarm",
+      "tags": [
+        "landfall",
+        "tokens",
+        "creature"
+      ],
+      "roles": [
+        "token-engine",
+        "landfall-payoff"
+      ]
+    },
+    "Tireless Provisioner": {
+      "name": "Tireless Provisioner",
+      "tags": [
+        "landfall",
+        "treasure",
+        "food"
+      ],
+      "roles": [
+        "ramp-engine",
+        "landfall-payoff"
+      ]
+    },
+    "Tireless Tracker": {
+      "name": "Tireless Tracker",
+      "tags": [
+        "landfall",
+        "clue",
+        "counters"
+      ],
+      "roles": [
+        "card-advantage",
+        "landfall-payoff"
+      ]
+    },
+    "Lotus Cobra": {
+      "name": "Lotus Cobra",
+      "tags": [
+        "landfall",
+        "ramp",
+        "color-fixing"
+      ],
+      "roles": [
+        "mana-engine",
+        "landfall-payoff"
+      ]
+    },
+    "Crucible of Worlds": {
+      "name": "Crucible of Worlds",
+      "tags": [
+        "lands",
+        "graveyard",
+        "artifact"
+      ],
+      "roles": [
+        "land-recursion",
+        "value-engine"
+      ]
+    },
+    "Ramunap Excavator": {
+      "name": "Ramunap Excavator",
+      "tags": [
+        "lands",
+        "graveyard",
+        "creature"
+      ],
+      "roles": [
+        "land-recursion",
+        "value-engine"
+      ]
+    },
+    "Exploration": {
+      "name": "Exploration",
+      "tags": [
+        "lands",
+        "ramp",
+        "extra-land"
+      ],
+      "roles": [
+        "land-acceleration"
+      ]
+    },
+    "Azusa, Lost but Seeking": {
+      "name": "Azusa, Lost but Seeking",
+      "tags": [
+        "lands",
+        "ramp",
+        "extra-land",
+        "legendary"
+      ],
+      "roles": [
+        "land-acceleration"
+      ]
+    },
+    "Land Tax": {
+      "name": "Land Tax",
+      "tags": [
+        "lands",
+        "ramp",
+        "enchantment"
+      ],
+      "roles": [
+        "land-advantage",
+        "fixing"
+      ]
+    },
+    "Crop Rotation": {
+      "name": "Crop Rotation",
+      "tags": [
+        "lands",
+        "tutor",
+        "instant"
+      ],
+      "roles": [
+        "land-tutor",
+        "utility"
+      ]
+    },
+    "Expedition Map": {
+      "name": "Expedition Map",
+      "tags": [
+        "lands",
+        "tutor",
+        "artifact"
+      ],
+      "roles": [
+        "land-tutor",
+        "utility"
+      ]
+    },
+    "Field of the Dead": {
+      "name": "Field of the Dead",
+      "tags": [
+        "land",
+        "tokens",
+        "landfall"
+      ],
+      "roles": [
+        "token-engine",
+        "utility-land"
+      ]
+    },
+    "Urza's Saga": {
+      "name": "Urza's Saga",
+      "tags": [
+        "land",
+        "artifact",
+        "tokens",
+        "tutor"
+      ],
+      "roles": [
+        "utility-land",
+        "artifact-tutor",
+        "token-engine"
+      ]
+    },
+    "Ancient Tomb": {
+      "name": "Ancient Tomb",
+      "tags": [
+        "land",
+        "ramp",
+        "life-as-resource",
+        "colorless"
+      ],
+      "roles": [
+        "fast-mana",
+        "utility-land"
+      ]
+    },
+    "Command Tower": {
+      "name": "Command Tower",
+      "tags": [
+        "land",
+        "color-fixing",
+        "commander"
+      ],
+      "roles": [
+        "mana-fixing"
+      ]
+    },
+    "Reliquary Tower": {
+      "name": "Reliquary Tower",
+      "tags": [
+        "land",
+        "hand-size",
+        "colorless"
+      ],
+      "roles": [
+        "utility-land"
+      ]
+    },
+    "Rogue's Passage": {
+      "name": "Rogue's Passage",
+      "tags": [
+        "land",
+        "evasion",
+        "colorless"
+      ],
+      "roles": [
+        "utility-land"
+      ]
+    },
+    "Lightning Greaves": {
+      "name": "Lightning Greaves",
+      "tags": [
+        "equipment",
+        "haste",
+        "shroud",
+        "protection"
+      ],
+      "roles": [
+        "commander-protection",
+        "haste-enabler"
+      ]
+    },
+    "Swiftfoot Boots": {
+      "name": "Swiftfoot Boots",
+      "tags": [
+        "equipment",
+        "haste",
+        "hexproof",
+        "protection"
+      ],
+      "roles": [
+        "commander-protection",
+        "haste-enabler"
+      ]
+    },
+    "The Great Henge": {
+      "name": "The Great Henge",
+      "tags": [
+        "ramp",
+        "card-draw",
+        "counters",
+        "lifegain",
+        "artifact"
+      ],
+      "roles": [
+        "value-engine",
+        "mana-engine"
+      ]
+    },
+    "Emrakul, the Exigent Doom": {
+      "name": "Emrakul, the Exigent Doom",
+      "tags": [
+        "eldrazi",
+        "colorless",
+        "reality-fracture"
+      ],
+      "roles": [
+        "large-threat"
+      ],
+      "set": "Reality Fracture"
+    },
+    "Karn, Gilded Guardian": {
+      "name": "Karn, Gilded Guardian",
+      "tags": [
+        "artifact-synergy",
+        "legendary",
+        "reality-fracture"
+      ],
+      "roles": [
+        "artifact-support"
+      ],
+      "set": "Reality Fracture"
+    },
+    "Karn, Argent Defender": {
+      "name": "Karn, Argent Defender",
+      "tags": [
+        "artifact-synergy",
+        "legendary",
+        "reality-fracture"
+      ],
+      "roles": [
+        "artifact-support"
+      ],
+      "set": "Reality Fracture"
+    },
+    "Chandra, Chill of Compliance": {
+      "name": "Chandra, Chill of Compliance",
+      "tags": [
+        "planeswalker",
+        "reality-fracture"
+      ],
+      "roles": [
+        "value-engine"
+      ],
+      "set": "Reality Fracture"
+    },
+    "Liliana the Faultless": {
+      "name": "Liliana the Faultless",
+      "tags": [
+        "planeswalker",
+        "reality-fracture"
+      ],
+      "roles": [
+        "value-engine"
+      ],
+      "set": "Reality Fracture"
+    },
+    "Liliana the Repentant": {
+      "name": "Liliana the Repentant",
+      "tags": [
+        "planeswalker",
+        "reality-fracture"
+      ],
+      "roles": [
+        "value-engine"
+      ],
+      "set": "Reality Fracture"
+    },
+    "The Theorist, Jace Beleren": {
+      "name": "The Theorist, Jace Beleren",
+      "tags": [
+        "planeswalker",
+        "reality-fracture"
+      ],
+      "roles": [
+        "value-engine"
+      ],
+      "set": "Reality Fracture"
+    },
+    "Theorist's Sanctum": {
+      "name": "Theorist's Sanctum",
+      "tags": [
+        "reality-fracture"
+      ],
+      "roles": [
+        "build-around"
+      ],
+      "set": "Reality Fracture"
+    },
+    "Bloodline Recollector": {
+      "name": "Bloodline Recollector",
+      "tags": [
+        "reality-fracture"
+      ],
+      "roles": [
+        "build-around"
+      ],
+      "set": "Reality Fracture"
+    },
+    "Enlightened Confidant": {
+      "name": "Enlightened Confidant",
+      "tags": [
+        "reality-fracture"
+      ],
+      "roles": [
+        "value"
+      ],
+      "set": "Reality Fracture"
+    },
+    "Stingcaster Mage": {
+      "name": "Stingcaster Mage",
+      "tags": [
+        "reality-fracture"
+      ],
+      "roles": [
+        "interaction"
+      ],
+      "set": "Reality Fracture"
+    }
+  },
+  "last_batch": {
+    "date": "2026-09-29",
+    "records_processed": 74,
+    "source_note": "Commander staples plus official Reality Fracture preview names."
+  }
+}
