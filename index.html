@@ -132,58 +132,172 @@ transition:.18s transform,.18s border-color,.18s box-shadow;padding:16px;color:v
 <section id="test2Page" class="test2-page">
   <button class="deck-page-back" onclick="showDeckHub()">← Decks</button>
   <div class="card test2-card">
-    <span class="slot-badge">Deck 2</span>
+    <span class="slot-badge">Deck 2 • Candidate Pool</span>
     <h1>Liesa — Everything Is Taxed</h1>
-    <p class="note"><strong>Commander:</strong> Liesa, Shroud of Dusk. The deck taxes normal game actions, turns life into a resource, then converts lifegain into opponent life loss.</p>
+    <p class="note"><strong>Commander:</strong> Liesa, Shroud of Dusk. Current build direction: make ordinary game actions cost mana, life, cards, tempo, or permanents; use our own life as a resource; then recycle lifegain into damage and combo finishes.</p>
 
     <div class="statrow" style="margin-top:18px">
       <span class="pill good">Commander locked</span>
       <span class="pill">Orzhov</span>
-      <span class="pill">Tax + lifegain combo</span>
+      <span class="pill">Tax / Lifedrain / Hatebears</span>
+      <span class="pill">Large candidate pool</span>
     </div>
 
-    <div style="margin-top:24px">
-      <div class="kicker">Life → Mana / Free Casting</div>
+    <div style="margin-top:26px">
+      <div class="kicker">Core Tax Collectors</div>
       <div class="cards" style="max-height:none">
-        <div class="carditem">K'rrik, Son of Yawgmoth</div>
-        <div class="carditem">Bolas's Citadel</div>
+        <div class="carditem"><strong>Liesa, Shroud of Dusk</strong><div class="small">Commander • every spell costs its caster life.</div></div>
+        <div class="carditem">Kambal, Consul of Allocation<div class="small">Punishes opponents for noncreature spells and restores our life.</div></div>
+        <div class="carditem">Painful Quandary<div class="small">Every opponent spell asks for a card or life.</div></div>
+        <div class="carditem">Rug of Smothering<div class="small">Punishes repeated spellcasting.</div></div>
+        <div class="carditem">Suture Priest<div class="small">Opponent creature entries cost life; ours restore life.</div></div>
+        <div class="carditem">Isolation Cell<div class="small">Creatures entering under an opponent create a pay-or-lose-life tax.</div></div>
+        <div class="carditem">Ankh of Mishra<div class="small">Makes land drops hurt.</div></div>
+        <div class="carditem">Polluted Bonds<div class="small">Opponent land drops drain them and heal us.</div></div>
       </div>
     </div>
 
-    <div style="margin-top:24px">
-      <div class="kicker">Life Recovery</div>
+    <div style="margin-top:26px">
+      <div class="kicker">Life → Cards / Mana / Free Casting</div>
       <div class="cards" style="max-height:none">
-        <div class="carditem">Children of Korlis</div>
-        <div class="carditem">Exquisite Blood</div>
-        <div class="carditem">Bloodthirsty Conqueror</div>
+        <div class="carditem">K'rrik, Son of Yawgmoth<div class="small">Turns black pips into life payments.</div></div>
+        <div class="carditem">Bolas's Citadel<div class="small">Casts from the top of the library by paying life.</div></div>
+        <div class="carditem">Black Market Connections<div class="small">Spend life each turn for cards, Treasure, and bodies.</div></div>
+        <div class="carditem">Greed<div class="small">Repeatable life-to-card conversion.</div></div>
+        <div class="carditem">Phyrexian Arena<div class="small">Steady cards for a small life payment.</div></div>
+        <div class="carditem">Necropotence<div class="small">Aggressive life-to-cards engine.</div></div>
+        <div class="carditem">Dark Confidant<div class="small">Card advantage paid with life.</div></div>
+        <div class="carditem">Sign in Blood<div class="small">Cheap card draw that can also target an opponent.</div></div>
+        <div class="carditem">Night's Whisper<div class="small">Efficient life-for-cards.</div></div>
       </div>
     </div>
 
-    <div style="margin-top:24px">
-      <div class="kicker">Lifegain → Drain</div>
+    <div style="margin-top:26px">
+      <div class="kicker">Life Recovery / Refill the Fuel Tank</div>
+      <div class="cards" style="max-height:none">
+        <div class="carditem">Children of Korlis<div class="small">Can restore life lost during the turn.</div></div>
+        <div class="carditem">Tainted Sigil<div class="small">Massive recovery after a high-loss turn around the table.</div></div>
+        <div class="carditem">Exquisite Blood<div class="small">Opponent life loss becomes our lifegain.</div></div>
+        <div class="carditem">Bloodthirsty Conqueror<div class="small">Creature version of the opponent-life-loss → lifegain engine.</div></div>
+        <div class="carditem">Soul Warden<div class="small">Creature entries refill life.</div></div>
+        <div class="carditem">Soul's Attendant<div class="small">Another Soul Warden-style refill engine.</div></div>
+        <div class="carditem">Authority of the Consuls<div class="small">Opposing creatures enter tapped while their entries gain us life.</div></div>
+        <div class="carditem">Whip of Erebos<div class="small">Gives our creatures lifelink and provides recursion.</div></div>
+        <div class="carditem">Gray Merchant of Asphodel<div class="small">Large multiplayer drain-and-heal swing.</div></div>
+        <div class="carditem">Exsanguinate<div class="small">Scalable table drain and life refill.</div></div>
+        <div class="carditem">Debt to the Deathless<div class="small">Orzhov X-spell drain finisher.</div></div>
+      </div>
+    </div>
+
+    <div style="margin-top:26px">
+      <div class="kicker">Lifegain → Opponent Life Loss</div>
       <div class="cards" style="max-height:none">
         <div class="carditem">Vito, Thorn of the Dusk Rose</div>
         <div class="carditem">Sanguine Bond</div>
         <div class="carditem">Marauding Blight-Priest</div>
         <div class="carditem">Enduring Tenacity</div>
         <div class="carditem">Vizkopa Guildmage</div>
+        <div class="carditem">Cliffhaven Vampire</div>
+        <div class="carditem">Defiant Bloodlord</div>
+        <div class="carditem">Epicure of Blood</div>
+        <div class="carditem">Starscape Cleric</div>
+        <div class="carditem">Indulging Patrician<div class="small">Turns a meaningful lifegain turn into table-wide life loss.</div></div>
       </div>
     </div>
 
-    <div style="margin-top:24px">
+    <div style="margin-top:26px">
+      <div class="kicker">Spell / Mana Taxes</div>
+      <div class="cards" style="max-height:none">
+        <div class="carditem">Thalia, Guardian of Thraben<div class="small">Taxes noncreature spells.</div></div>
+        <div class="carditem">Vryn Wingmare<div class="small">Flying copy of the noncreature tax effect.</div></div>
+        <div class="carditem">Glowrider<div class="small">Another noncreature spell tax body.</div></div>
+        <div class="carditem">Sphere of Resistance<div class="small">Everything costs more.</div></div>
+        <div class="carditem">Thorn of Amethyst<div class="small">Noncreature spells cost extra.</div></div>
+        <div class="carditem">Trinisphere<div class="small">Forces cheap spells up to a minimum total cost.</div></div>
+        <div class="carditem">Damping Sphere<div class="small">Punishes multiple spells in one turn and explosive lands.</div></div>
+        <div class="carditem">Archon of Emeria<div class="small">One-spell-per-turn pressure plus tapped nonbasic lands.</div></div>
+        <div class="carditem">Deafening Silence<div class="small">Restricts noncreature spell chains.</div></div>
+        <div class="carditem">Rule of Law<div class="small">Makes every player ration spells.</div></div>
+      </div>
+    </div>
+
+    <div style="margin-top:26px">
+      <div class="kicker">Combat Taxes</div>
+      <div class="cards" style="max-height:none">
+        <div class="carditem">Ghostly Prison<div class="small">Mana tax to attack us.</div></div>
+        <div class="carditem">Norn's Annex<div class="small">Attackers pay white mana or life.</div></div>
+        <div class="carditem">Sphere of Safety<div class="small">Attack tax scales with our enchantments.</div></div>
+        <div class="carditem">Windborn Muse<div class="small">Ghostly Prison on a creature.</div></div>
+        <div class="carditem">Archangel of Tithes<div class="small">Taxes attacks while untapped and blocks while attacking.</div></div>
+        <div class="carditem">Baird, Steward of Argive<div class="small">Taxes attacks into us and our planeswalkers.</div></div>
+        <div class="carditem">Revenge of Ravens<div class="small">Each attacking creature drains its controller and heals us.</div></div>
+        <div class="carditem">Marchesa's Decree<div class="small">Punishes attacks while adding monarch pressure.</div></div>
+        <div class="carditem">No Mercy<div class="small">Creatures that connect with us get destroyed.</div></div>
+      </div>
+    </div>
+
+    <div style="margin-top:26px">
+      <div class="kicker">Draw / Search / Land Taxes</div>
+      <div class="cards" style="max-height:none">
+        <div class="carditem">Sheoldred, the Apocalypse<div class="small">Opponent draws cost life; our draws gain life.</div></div>
+        <div class="carditem">Underworld Dreams<div class="small">Every opponent draw hurts.</div></div>
+        <div class="carditem">Fate Unraveler<div class="small">Creature version of draw punishment.</div></div>
+        <div class="carditem">Ob Nixilis, Unshackled<div class="small">Searching libraries becomes extremely expensive.</div></div>
+        <div class="carditem">Leonin Arbiter<div class="small">Players pay mana before searching libraries.</div></div>
+        <div class="carditem">Aven Mindcensor<div class="small">Makes opposing searches unreliable.</div></div>
+        <div class="carditem">Opposition Agent<div class="small">Turns opposing searches into theft.</div></div>
+        <div class="carditem">Archivist of Oghma<div class="small">Opposing searches pay us in cards and life.</div></div>
+        <div class="carditem">Ankh of Mishra<div class="small">Land entries hurt their controller.</div></div>
+        <div class="carditem">Polluted Bonds<div class="small">Opponent land entries drain them and heal us.</div></div>
+      </div>
+    </div>
+
+    <div style="margin-top:26px">
+      <div class="kicker">Ability Taxes / Shutoff</div>
+      <div class="cards" style="max-height:none">
+        <div class="carditem">Suppression Field<div class="small">Activated abilities cost extra unless they are mana abilities.</div></div>
+        <div class="carditem">Drana and Linvala<div class="small">Turns off opponents' creature activated abilities and lets us use them.</div></div>
+        <div class="carditem">Linvala, Keeper of Silence<div class="small">Opposing creature activated abilities are shut off.</div></div>
+        <div class="carditem">Pithing Needle<div class="small">Names one problem activated ability source.</div></div>
+        <div class="carditem">Phyrexian Revoker<div class="small">Creature version that can hit many nonland sources.</div></div>
+        <div class="carditem">Cursed Totem<div class="small">Broadly shuts down creature activated abilities.</div></div>
+      </div>
+    </div>
+
+    <div style="margin-top:26px">
+      <div class="kicker">Pay-or-Suffer / Punishment</div>
+      <div class="cards" style="max-height:none">
+        <div class="carditem">Painful Quandary<div class="small">Discard or lose life whenever an opponent casts.</div></div>
+        <div class="carditem">Blind Obedience<div class="small">Artifacts/creatures enter tapped; extort converts our spells into drains.</div></div>
+        <div class="carditem">Smothering Tithe<div class="small">Opponent draws ask for mana or give us Treasure.</div></div>
+        <div class="carditem">Esper Sentinel<div class="small">Early noncreature spells ask opponents to pay or give us cards.</div></div>
+        <div class="carditem">Lotho, Corrupt Shirriff<div class="small">Second spells create Treasure at a life cost.</div></div>
+        <div class="carditem">Mangara, the Diplomat<div class="small">Rewards us when opponents overcommit spells or attackers.</div></div>
+        <div class="carditem">Bloodchief Ascension<div class="small">Turns opposing graveyard movement into drain once online.</div></div>
+        <div class="carditem">Wound Reflection<div class="small">Doubles down on life lost at each opponent's end step.</div></div>
+        <div class="carditem">The Meathook Massacre<div class="small">Board control plus death-trigger life swings.</div></div>
+      </div>
+    </div>
+
+    <div style="margin-top:26px">
       <div class="kicker">Infinite / Game-Ending Life Combos</div>
       <div class="cards" style="max-height:none">
-        <div class="carditem"><strong>Exquisite Blood + Vito, Thorn of the Dusk Rose</strong><div class="small">Lifegain causes life loss; life loss causes more lifegain.</div></div>
-        <div class="carditem"><strong>Exquisite Blood + Sanguine Bond</strong><div class="small">Classic two-card drain loop.</div></div>
-        <div class="carditem"><strong>Exquisite Blood + Marauding Blight-Priest</strong><div class="small">Each lifegain drains every opponent and feeds Exquisite Blood.</div></div>
-        <div class="carditem"><strong>Bloodthirsty Conqueror + Vito / Sanguine Bond / Marauding Blight-Priest / Enduring Tenacity</strong><div class="small">A second Exquisite Blood-style half for redundant combo lines.</div></div>
-        <div class="carditem"><strong>Heliod, Sun-Crowned + Walking Ballista</strong><div class="small">Lifelink + counter replacement creates a repeatable damage/lifegain loop.</div></div>
+        <div class="carditem"><strong>Exquisite Blood + Vito, Thorn of the Dusk Rose</strong><div class="small">Gain life → opponent loses life → Exquisite Blood gains more life → repeat.</div></div>
+        <div class="carditem"><strong>Exquisite Blood + Sanguine Bond</strong><div class="small">Classic two-card lifegain/lifeloss loop.</div></div>
+        <div class="carditem"><strong>Exquisite Blood + Marauding Blight-Priest</strong><div class="small">Lifegain drains each opponent and feeds Exquisite Blood again.</div></div>
+        <div class="carditem"><strong>Exquisite Blood + Enduring Tenacity</strong><div class="small">Another redundant two-piece drain loop.</div></div>
+        <div class="carditem"><strong>Bloodthirsty Conqueror + Vito / Sanguine Bond / Marauding Blight-Priest / Enduring Tenacity</strong><div class="small">Multiple redundant combo pairings using the creature version of Exquisite Blood.</div></div>
+        <div class="carditem"><strong>Bloodthirsty Conqueror + Starscape Cleric</strong><div class="small">Another lifegain/lifeloss loop line.</div></div>
+        <div class="carditem"><strong>Heliod, Sun-Crowned + Walking Ballista</strong><div class="small">Lifelink plus +1/+1 counter replacement creates repeatable damage and lifegain.</div></div>
+        <div class="carditem"><strong>Sanguine Bond + Beacon of Immortality</strong><div class="small">Huge life swing that can remove one opponent outright depending on life totals.</div></div>
+        <div class="carditem"><strong>Vito, Thorn of the Dusk Rose + Blood Tribute</strong><div class="small">A large targeted life swing that can eliminate an opponent.</div></div>
+        <div class="carditem"><strong>Aetherflux Reservoir + Exquisite Blood / Bloodthirsty Conqueror</strong><div class="small">Reservoir turns a huge life reserve into a direct finishing line.</div></div>
       </div>
     </div>
 
-    <div style="margin-top:24px">
-      <div class="kicker">Current Deck Engine</div>
-      <p class="note">Pay life to cast or reduce costs → regain that life → lifegain drains opponents → opponent life loss refills us → keep spending life while the table is taxed.</p>
+    <div style="margin-top:26px">
+      <div class="kicker">Current Engine</div>
+      <p class="note"><strong>Pay life → gain cards/mana/casts → refill life → lifegain drains opponents → opponent life loss refills us.</strong> Meanwhile, opponents are charged for spells, creatures, attacks, draws, searches, lands, and activated abilities. This page is intentionally a candidate pool; we will cut weaker or conflicting pieces when we build the final 99.</p>
     </div>
   </div>
 </section>
